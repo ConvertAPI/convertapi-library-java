@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import okhttp3.HttpUrl;
 import okhttp3.MultipartBody;
 import okhttp3.Request;
+import okhttp3.internal.http.HttpHeaders;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -13,12 +15,12 @@ import java.util.concurrent.CompletableFuture;
 public class ConvertApi {
     private static final List<String> IGNORE_PARAMS = Arrays.asList( "storefile", "async", "jobid", "timeout");
 
-    public static CompletableFuture<ConversionResponse> convert(String fromFormat, String toFormat, Param[] params) {
+    public static ConversionResult convert(String fromFormat, String toFormat, Param[] params) {
         return convert(fromFormat, toFormat, params, Config.defaults());
     }
 
-    public static CompletableFuture<ConversionResponse> convert(String fromFormat, String toFormat, Param[] params, Config config) {
-        return CompletableFuture.supplyAsync(() -> {
+    public static ConversionResult convert(String fromFormat, String toFormat, Param[] params, Config config) {
+        CompletableFuture<ConversionResponse> completableResponse = CompletableFuture.supplyAsync(() -> {
             HttpUrl url = Http.getUrlBuilder(config)
                     .addPathSegment(fromFormat)
                     .addPathSegment("to")
@@ -46,6 +48,7 @@ public class ConvertApi {
 
             Request request = new Request.Builder()
                     .url(url)
+                    .addHeader("Accept", "application/json")
                     .post(multipartBuilder.build())
                     .build();
 
@@ -58,5 +61,7 @@ public class ConvertApi {
 
             return new Gson().fromJson(bodyString, ConversionResponse.class);
         });
+
+        return new ConversionResult(completableResponse);
     }
 }

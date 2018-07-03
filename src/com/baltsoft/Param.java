@@ -6,16 +6,19 @@ import okhttp3.*;
 import javax.activation.MimetypesFileTypeMap;
 import java.io.*;
 import java.math.BigDecimal;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class Param {
     private String name;
-    private CompletableFuture<String[]> values;
+    private CompletableFuture<List<String>> values;
 //    private InputStream streamValue;
     private MediaType fileContentType;
     private String fileExtension;
-    private File file;
+    private Path file;
     private Config config = Config.defaults();
 
     public Param(String name, String[] values) {
@@ -38,21 +41,26 @@ public class Param {
 //    public Param(String name, InputStream value, String fileFormat) {
 //    }
 
-    public Param(String name, File value) throws FileNotFoundException {
+    public Param(String name, Path value) throws FileNotFoundException {
         this(name, value, Config.defaults());
     }
 
-    public Param(String name, File value, Config config) throws FileNotFoundException {
+    public Param(String name, Path value, Config config) throws FileNotFoundException {
         this(name, new String[]{});
         file = value;
-        String contentTypeString = MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(file);
+        String contentTypeString = MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(file.toFile());
         fileContentType = MediaType.parse(contentTypeString);
         fileExtension = getFileExtension(file);
         values = upload(file, fileContentType, config);
     }
 
-    public Param(String name, CompletableFuture<ConversionResponse> value) throws ExecutionException, InterruptedException {
+    public Param(String name, ConversionResult value) throws ExecutionException, InterruptedException {
         this(name, new String[]{});
+
+        value.getResponseFuture().thenApplyAsync(r -> {
+            String[] urls = Arrays.stream(r.Files).map(Param::apply).;
+        });
+
         ConversionResponse conversionResponse = value.get();
         String[] urls = new String[conversionResponse.Files.length];
         for (int i = 0; i < conversionResponse.Files.length; i++) {
@@ -61,23 +69,27 @@ public class Param {
         this.values = CompletableFuture.completedFuture(urls);
     }
 
-    private static CompletableFuture<String[]> upload(File file, MediaType fileContentType, Config config) {
+    private static CompletableFuture<String[]> upload(Path file, MediaType fileContentType, Config config) {
         return CompletableFuture.supplyAsync(() -> {
             Request request = new Request.Builder()
                     .url(Http.getUrlBuilder(config).addPathSegment("upload")
-                            .addQueryParameter("filename", file.getName())
+                            .addQueryParameter("filename", file.getFileName().toString())
                             .build())
-                    .post(RequestBody.create(fileContentType, file))
+                    .post(RequestBody.create(fileContentType, file.toFile()))
                     .build();
 
             String bodyString = null;
             try {
                 bodyString = Http.getClient().newCall(request).execute().body().string();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
             return new String[] {bodyString};
         });
+    }
+
+    private static String apply(ConversionResponseFile f) {
+        return f.Url;
     }
 
     public String getName() {
@@ -89,8 +101,8 @@ public class Param {
         return this;
     }
 
-    private String getFileExtension(File file) {
-        String name = file.getName();
+    private String getFileExtension(Path file) {
+        String name = file.getFileName().toString();
         try {
             return name.substring(name.lastIndexOf(".") + 2);
         } catch (Exception e) {
