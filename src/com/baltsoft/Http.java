@@ -24,7 +24,7 @@ public class Http {
                 .addQueryParameter("secret", config.getSecret());
     }
 
-    public static CompletableFuture<InputStream> get(String url) {
+    public static CompletableFuture<InputStream> requestGet(String url) {
         return CompletableFuture.supplyAsync(() -> {
             Request request = new Request.Builder().url(url).build();
             Response response = null;

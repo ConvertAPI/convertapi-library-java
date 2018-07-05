@@ -5,12 +5,13 @@ import com.google.gson.Gson;
 import okhttp3.HttpUrl;
 import okhttp3.MultipartBody;
 import okhttp3.Request;
-import okhttp3.internal.http.HttpHeaders;
+import okhttp3.Response;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class ConvertApi {
     private static final List<String> IGNORE_PARAMS = Arrays.asList( "storefile", "async", "jobid", "timeout");
@@ -32,16 +33,9 @@ public class ConvertApi {
             for (Param param: params) {
                 if (!IGNORE_PARAMS.contains(param.getName())) {
                     try {
-                        String[] values = param.getValues();
-                        if (values.length == 1) {
-                            multipartBuilder.addFormDataPart(param.getName(), values[0]);
-                        } else {
-                            for (int i = 0; i < values.length; i++) {
-                                multipartBuilder.addFormDataPart(param.getName() + "[" + i + "]", values[i]);
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        multipartBuilder.addFormDataPart(param.getName(), param.getValue());
+                    } catch (ExecutionException | InterruptedException e) {
+                        throw new RuntimeException(e);
                     }
                 }
             }
@@ -52,11 +46,15 @@ public class ConvertApi {
                     .post(multipartBuilder.build())
                     .build();
 
-            String bodyString = null;
+            String bodyString;
             try {
-                bodyString = Http.getClient().newCall(request).execute().body().string();
+                Response response = Http.getClient().newCall(request).execute();
+                bodyString = response.body().string();
+                if (response.code() != 200) {
+                    throw new ConversionException(bodyString);
+                }
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
 
             return new Gson().fromJson(bodyString, ConversionResponse.class);

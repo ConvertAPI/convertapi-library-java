@@ -1,33 +1,22 @@
 package com.baltsoft;
 
-import com.baltsoft.Model.ConversionResponse;
-import com.baltsoft.Model.ConversionResponseFile;
 import okhttp3.*;
 import javax.activation.MimetypesFileTypeMap;
 import java.io.*;
 import java.math.BigDecimal;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class Param {
     private String name;
-    private CompletableFuture<List<String>> values;
-//    private InputStream streamValue;
-    private MediaType fileContentType;
-    private String fileExtension;
-    private Path file;
+    private CompletableFuture<String> value;
     private Config config = Config.defaults();
 
-    public Param(String name, String[] values) {
-        this.name = name.toLowerCase();
-        this.values = CompletableFuture.completedFuture(values);
-    }
-
     public Param(String name, String value) {
-        this(name, new String[]{value});
+        this.name = name.toLowerCase();
+        this.value = CompletableFuture.completedFuture(value);
     }
 
     public Param(String name, int value) {
@@ -38,58 +27,34 @@ public class Param {
         this(name, String.valueOf(value));
     }
 
-//    public Param(String name, InputStream value, String fileFormat) {
-//    }
+    public Param(String name, byte[] value, String fileFormat) {
+        this(name, value, fileFormat, Config.defaults());
+    }
 
-    public Param(String name, Path value) throws FileNotFoundException {
+    public Param(String name, byte[] value, String fileFormat, Config config) {
+        this(name, "");
+        String fileName = "getFile." + fileFormat;
+        String contentTypeString = MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(fileName);
+        this.value = upload(value, fileName, MediaType.parse(contentTypeString), config);
+    }
+
+    public Param(String name, Path value) throws IOException {
         this(name, value, Config.defaults());
     }
 
-    public Param(String name, Path value, Config config) throws FileNotFoundException {
-        this(name, new String[]{});
-        file = value;
-        String contentTypeString = MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(file.toFile());
-        fileContentType = MediaType.parse(contentTypeString);
-        fileExtension = getFileExtension(file);
-        values = upload(file, fileContentType, config);
+    public Param(String name, Path value, Config config) throws IOException {
+        this(name, "");
+        String contentTypeString = MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(value.toFile());
+        this.value = upload(Files.readAllBytes(value), value.getFileName().toString(), MediaType.parse(contentTypeString), config);
     }
 
     public Param(String name, ConversionResult value) throws ExecutionException, InterruptedException {
-        this(name, new String[]{});
-
-        value.getResponseFuture().thenApplyAsync(r -> {
-            String[] urls = Arrays.stream(r.Files).map(Param::apply).;
-        });
-
-        ConversionResponse conversionResponse = value.get();
-        String[] urls = new String[conversionResponse.Files.length];
-        for (int i = 0; i < conversionResponse.Files.length; i++) {
-            urls[i] = conversionResponse.Files[i].Url;
-        }
-        this.values = CompletableFuture.completedFuture(urls);
+        this(name, value, 0);
     }
 
-    private static CompletableFuture<String[]> upload(Path file, MediaType fileContentType, Config config) {
-        return CompletableFuture.supplyAsync(() -> {
-            Request request = new Request.Builder()
-                    .url(Http.getUrlBuilder(config).addPathSegment("upload")
-                            .addQueryParameter("filename", file.getFileName().toString())
-                            .build())
-                    .post(RequestBody.create(fileContentType, file.toFile()))
-                    .build();
-
-            String bodyString = null;
-            try {
-                bodyString = Http.getClient().newCall(request).execute().body().string();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            return new String[] {bodyString};
-        });
-    }
-
-    private static String apply(ConversionResponseFile f) {
-        return f.Url;
+    public Param(String name, ConversionResult value, int fileIndex) throws ExecutionException, InterruptedException {
+        this(name, "");
+        this.value = value.getFile(fileIndex).thenApplyAsync(f -> f.getUrl());
     }
 
     public String getName() {
@@ -101,24 +66,23 @@ public class Param {
         return this;
     }
 
-    private String getFileExtension(Path file) {
-        String name = file.getFileName().toString();
-        try {
-            return name.substring(name.lastIndexOf(".") + 2);
-        } catch (Exception e) {
-            return "";
-        }
+    public String getValue() throws ExecutionException, InterruptedException {
+        return this.value.get();
     }
 
-    public MediaType getFileContentType() {
-        return fileContentType;
-    }
-
-    public String getFileExtension() {
-        return fileExtension;
-    }
-
-    public String[] getValues() throws ExecutionException, InterruptedException {
-        return values.get();
+    private static CompletableFuture<String> upload(byte[] data, String fileName, MediaType fileContentType, Config config) {
+        return CompletableFuture.supplyAsync(() -> {
+            Request request = new Request.Builder()
+                    .url(Http.getUrlBuilder(config).addPathSegment("upload")
+                            .addQueryParameter("filename", fileName.toString())
+                            .build())
+                    .post(RequestBody.create(fileContentType, data))
+                    .build();
+            try {
+                return Http.getClient().newCall(request).execute().body().string();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }

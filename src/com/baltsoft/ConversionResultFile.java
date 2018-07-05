@@ -1,6 +1,5 @@
 package com.baltsoft;
 
-import com.baltsoft.Model.ConversionResponse;
 import com.baltsoft.Model.ConversionResponseFile;
 
 import java.io.IOException;
@@ -10,32 +9,37 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 public class ConversionResultFile {
-    private final CompletableFuture<ConversionResponse> responseFuture;
-    private final int fileIndex;
+    private final ConversionResponseFile conversionResponseFile;
 
-    public ConversionResultFile(CompletableFuture<ConversionResponse> responseFuture, int fileIndex) {
-        this.responseFuture = responseFuture;
-        this.fileIndex = fileIndex;
+    public ConversionResultFile(ConversionResponseFile conversionResponseFile) {
+        this.conversionResponseFile = conversionResponseFile;
     }
 
-    public ConversionResponseFile fileInfo() throws ExecutionException, InterruptedException {
-        return responseFuture.get().Files[fileIndex];
+    public String getName() {
+        return conversionResponseFile.FileName;
+    }
+
+    public int getSize() {
+        return conversionResponseFile.FileSize;
+    }
+
+    public String getUrl() {
+        return conversionResponseFile.Url;
     }
 
     public CompletableFuture<InputStream> asStream() {
-        return responseFuture.thenComposeAsync(r -> Http.get(r.Files[fileIndex].Url));
+        return Http.requestGet(getUrl());
     }
 
     public CompletableFuture<Path> saveFile(Path path) {
         return asStream().thenApplyAsync(s -> {
             try {
-                Path filePath = Files.isDirectory(path) ? Paths.get(path.toString(), fileInfo().FileName) : path;
+                Path filePath = Files.isDirectory(path) ? Paths.get(path.toString(), getName()) : path;
                 Files.copy(s, filePath, StandardCopyOption.REPLACE_EXISTING);
                 return filePath;
-            } catch (IOException | ExecutionException | InterruptedException e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
