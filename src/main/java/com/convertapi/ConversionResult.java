@@ -1,6 +1,7 @@
 package com.convertapi;
 
-import com.convertapi.Model.ConversionResponse;
+import com.convertapi.model.ConversionResponse;
+import com.convertapi.model.ConversionResponseFile;
 
 import java.nio.file.Files;
 import java.nio.file.NotDirectoryException;
@@ -19,6 +20,18 @@ public class ConversionResult {
 
     public CompletableFuture<Integer> fileCount() throws ExecutionException, InterruptedException {
         return responseFuture.thenApplyAsync(r -> r.Files.length);
+    }
+
+    public CompletableFuture<List<String>> urls() throws ExecutionException, InterruptedException {
+        return responseFuture.thenApplyAsync(r -> {
+            List<String> valueList = new ArrayList();
+            for (ConversionResponseFile file: r.Files) valueList.add(file.Url);
+            return valueList;
+        });
+    }
+
+    public CompletableFuture<Integer> conversionCost() throws ExecutionException, InterruptedException {
+        return responseFuture.thenApplyAsync(r -> r.ConversionCost);
     }
 
     public CompletableFuture<ConversionResultFile> getFile(int index) {

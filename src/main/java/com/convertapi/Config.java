@@ -3,7 +3,7 @@ package com.convertapi;
 public class Config {
     private static String defaultSecret;
     private static final String SCHEME = "https";
-    private static final String HOST = "v2.com.convertapi.com";
+    private static final String HOST = "v2.convertapi.com";
     private static final int TIMEOUT = 180;
     private String scheme;
     private String host;

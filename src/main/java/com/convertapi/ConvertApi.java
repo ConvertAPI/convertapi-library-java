@@ -1,6 +1,6 @@
 package com.convertapi;
 
-import com.convertapi.Model.ConversionResponse;
+import com.convertapi.model.ConversionResponse;
 import com.google.gson.Gson;
 import okhttp3.HttpUrl;
 import okhttp3.MultipartBody;
@@ -33,7 +33,13 @@ public class ConvertApi {
             for (Param param: params) {
                 if (!IGNORE_PARAMS.contains(param.getName())) {
                     try {
-                        multipartBuilder.addFormDataPart(param.getName(), param.getValue());
+                        if (param.getValue().size() == 1) {
+                            multipartBuilder.addFormDataPart(param.getName(), param.getValue().get(0));
+                        } else {
+                            for (int i = 0; i < param.getValue().size(); i++) {
+                                multipartBuilder.addFormDataPart(param.getName() + "[" + i + "]", param.getValue().get(i));
+                            }
+                        }
                     } catch (ExecutionException | InterruptedException e) {
                         throw new RuntimeException(e);
                     }

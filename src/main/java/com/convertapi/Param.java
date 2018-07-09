@@ -6,17 +6,20 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class Param {
     private String name;
-    private CompletableFuture<String> value;
-    private Config config = Config.defaults();
+    private CompletableFuture<List<String>> value;
 
     public Param(String name, String value) {
         this.name = name.toLowerCase();
-        this.value = CompletableFuture.completedFuture(value);
+        List<String> valueList = new ArrayList();
+        valueList.add(value);
+        this.value = CompletableFuture.completedFuture(valueList);
     }
 
     public Param(String name, int value) {
@@ -50,28 +53,27 @@ public class Param {
 
     public Param(String name, ConversionResult value) throws ExecutionException, InterruptedException {
         this(name, value, 0);
+        this.value = value.urls();
     }
 
     public Param(String name, ConversionResult value, int fileIndex) throws ExecutionException, InterruptedException {
         this(name, "");
-        this.value = value.getFile(fileIndex).thenApplyAsync(f -> f.
-                getUrl());
+        this.value = value.getFile(fileIndex).thenApplyAsync(f -> {
+            List<String> valueList = new ArrayList();
+            valueList.add(f.getUrl());
+            return valueList;
+        });
     }
 
     public String getName() {
         return name;
     }
 
-    public Param setConfig(Config config) {
-        this.config = config;
-        return this;
-    }
-
-    public String getValue() throws ExecutionException, InterruptedException {
+    public List<String> getValue() throws ExecutionException, InterruptedException {
         return this.value.get();
     }
 
-    private static CompletableFuture<String> upload(byte[] data, String fileName, MediaType fileContentType, Config config) {
+    private static CompletableFuture<List<String>> upload(byte[] data, String fileName, MediaType fileContentType, Config config) {
         return CompletableFuture.supplyAsync(() -> {
             Request request = new Request.Builder()
                     .url(Http.getUrlBuilder(config).addPathSegment("upload")
@@ -80,7 +82,9 @@ public class Param {
                     .post(RequestBody.create(fileContentType, data))
                     .build();
             try {
-                return Http.getClient().newCall(request).execute().body().string();
+                List<String> valueList = new ArrayList<String>();
+                valueList.add(Http.getClient().newCall(request).execute().body().string());
+                return valueList;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

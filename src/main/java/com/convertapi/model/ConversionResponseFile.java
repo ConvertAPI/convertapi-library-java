@@ -1,4 +1,4 @@
-package com.convertapi.Model;
+package com.convertapi.model;
 
 public class ConversionResponseFile {
     public String FileName = "";
