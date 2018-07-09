@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -20,22 +21,21 @@ import java.util.concurrent.ExecutionException;
 
 public class ConvertWordToPdfAndPng {
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-        Config.setDefaultSecret("YOUR API SECRET"); //Get your secret at https://www.convertapi.com/a
+        Config.setDefaultSecret("YOUR API SECRET");    //Get your secret at https://www.convertapi.com/a
+        Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
 
         System.out.println("Converting DOCX to PDF and JPG in parallel");
 
         Param docxFileParam = new Param("file", Paths.get("test-files/test.docx"));
 
-        ConversionResult pdfResult = ConvertApi.convert("docx", "pdf", new Param[]{docxFileParam});
-        ConversionResult jpgResult = ConvertApi.convert("docx", "jpg", new Param[]{docxFileParam});
+        CompletableFuture<ConversionResult> pdfResult = ConvertApi.convert("docx", "pdf", new Param[]{docxFileParam});
+        CompletableFuture<ConversionResult> jpgResult = ConvertApi.convert("docx", "jpg", new Param[]{docxFileParam});
 
-        Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
-        Path pdfPath = pdfResult.saveFile(tempDir);
-        List<Path> jpgPaths = jpgResult.saveFiles(tempDir);
+        System.out.println("PDF file saved to: " + pdfResult.get().saveFile(tempDir).get());
 
-        System.out.println("PDF file saved to: " + pdfPath.toString());
-        for (Path path: jpgPaths) {
-            System.out.println("JPG file saved to: " + path.toString());
+        List<CompletableFuture<Path>> jpgPaths = jpgResult.get().saveFiles(tempDir);
+        for (CompletableFuture<Path> path: jpgPaths) {
+            System.out.println("JPG file saved to: " + path.get().toString());
         }
     }
 }

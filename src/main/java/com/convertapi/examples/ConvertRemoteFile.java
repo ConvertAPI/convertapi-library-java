@@ -3,6 +3,7 @@ package com.convertapi.examples;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import com.convertapi.Config;
 import com.convertapi.ConversionResult;
@@ -20,10 +21,10 @@ public class ConvertRemoteFile {
         Param fileParam = new Param("file", "https://cdn.convertapi.com/cara/testfiles/presentation.pptx");
 
         System.out.println("Converting remote PPTX to PDF");
-        ConversionResult result = ConvertApi.convert("pptx", "pdf", new Param[]{fileParam});
+        CompletableFuture<ConversionResult> result = ConvertApi.convert("pptx", "pdf", new Param[]{fileParam});
 
         Path pdfFile = Paths.get(System.getProperty("java.io.tmpdir") + "/myfile.pdf");
-        result.saveFile(pdfFile);
+        result.get().saveFile(pdfFile);
 
         System.out.println("PDF file saved to: " + pdfFile.toString());
     }

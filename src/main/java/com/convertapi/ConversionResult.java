@@ -12,41 +12,39 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class ConversionResult {
-    private final CompletableFuture<ConversionResponse> responseFuture;
+    private final ConversionResponse response;
 
-    public ConversionResult(CompletableFuture<ConversionResponse> responseFuture) {
-        this.responseFuture = responseFuture;
+    public ConversionResult(ConversionResponse responseFuture) {
+        this.response = responseFuture;
     }
 
-    public CompletableFuture<Integer> fileCount() throws ExecutionException, InterruptedException {
-        return responseFuture.thenApplyAsync(r -> r.Files.length);
+    public Integer fileCount() throws ExecutionException, InterruptedException {
+        return response.Files.length;
     }
 
-    public CompletableFuture<List<String>> urls() throws ExecutionException, InterruptedException {
-        return responseFuture.thenApplyAsync(r -> {
-            List<String> valueList = new ArrayList();
-            for (ConversionResponseFile file: r.Files) valueList.add(file.Url);
-            return valueList;
-        });
+    public List<String> urls() {
+        List<String> valueList = new ArrayList();
+        for (ConversionResponseFile file: response.Files) valueList.add(file.Url);
+        return valueList;
     }
 
-    public CompletableFuture<Integer> conversionCost() throws ExecutionException, InterruptedException {
-        return responseFuture.thenApplyAsync(r -> r.ConversionCost);
+    public Integer conversionCost() throws ExecutionException, InterruptedException {
+        return response.ConversionCost;
     }
 
-    public CompletableFuture<ConversionResultFile> getFile(int index) {
-        return responseFuture.thenApplyAsync(r -> new ConversionResultFile(r.Files[index]));
+    public ConversionResultFile getFile(int index) {
+        return new ConversionResultFile(response.Files[index]);
     }
 
-    public Path saveFile(Path file) throws ExecutionException, InterruptedException {
-        return getFile(0).thenCompose(f -> f.saveFile(file)).get();
+    public CompletableFuture<Path> saveFile(Path file)  {
+        return getFile(0).saveFile(file);
     }
 
-    public List<Path> saveFiles(Path directory) throws ExecutionException, InterruptedException, NotDirectoryException {
-        if (!Files.isDirectory(directory)) throw new NotDirectoryException(directory.toString());
-        List<Path> paths = new ArrayList<Path>();
-        for (int i = 0; i < responseFuture.get().Files.length; i++) {
-            paths.add(getFile(i).thenCompose(f -> f.saveFile(directory)).get());
+    public List<CompletableFuture<Path>> saveFiles(Path directory) {
+        if (!Files.isDirectory(directory)) throw new RuntimeException("Directory expected, but received: " + directory.toString());
+        List<CompletableFuture<Path>> paths = new ArrayList();
+        for (int i = 0; i < response.Files.length; i++) {
+            paths.add(getFile(i).saveFile(directory));
         }
         return paths;
     }

@@ -15,8 +15,12 @@ public class Param {
     private String name;
     private CompletableFuture<List<String>> value;
 
-    public Param(String name, String value) {
+    private Param(String name) {
         this.name = name.toLowerCase();
+    }
+
+    public Param(String name, String value) {
+        this(name.toLowerCase());
         List<String> valueList = new ArrayList();
         valueList.add(value);
         this.value = CompletableFuture.completedFuture(valueList);
@@ -35,7 +39,7 @@ public class Param {
     }
 
     public Param(String name, byte[] value, String fileFormat, Config config) {
-        this(name, "");
+        this(name);
         String fileName = "getFile." + fileFormat;
         String contentTypeString = MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(fileName);
         this.value = upload(value, fileName, MediaType.parse(contentTypeString), config);
@@ -46,23 +50,26 @@ public class Param {
     }
 
     public Param(String name, Path value, Config config) throws IOException {
-        this(name, "");
+        this(name);
         String contentTypeString = MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(value.toFile());
         this.value = upload(Files.readAllBytes(value), value.getFileName().toString(), MediaType.parse(contentTypeString), config);
     }
 
     public Param(String name, ConversionResult value) throws ExecutionException, InterruptedException {
         this(name, value, 0);
-        this.value = value.urls();
+        this.value = CompletableFuture.completedFuture(value.urls());
     }
 
     public Param(String name, ConversionResult value, int fileIndex) throws ExecutionException, InterruptedException {
-        this(name, "");
-        this.value = value.getFile(fileIndex).thenApplyAsync(f -> {
-            List<String> valueList = new ArrayList();
-            valueList.add(f.getUrl());
-            return valueList;
-        });
+        this(name);
+        List<String> valueList = new ArrayList();
+        valueList.add(value.getFile(fileIndex).getUrl());
+        this.value = CompletableFuture.completedFuture(valueList);
+    }
+
+    public Param(String name, CompletableFuture<ConversionResult> value) throws ExecutionException, InterruptedException {
+        this(name);
+        this.value = value.thenApply(r -> r.urls());
     }
 
     public String getName() {

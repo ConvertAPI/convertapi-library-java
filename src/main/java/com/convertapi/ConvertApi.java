@@ -1,6 +1,7 @@
 package com.convertapi;
 
 import com.convertapi.model.ConversionResponse;
+import com.convertapi.model.User;
 import com.google.gson.Gson;
 import okhttp3.HttpUrl;
 import okhttp3.MultipartBody;
@@ -16,11 +17,11 @@ import java.util.concurrent.ExecutionException;
 public class ConvertApi {
     private static final List<String> IGNORE_PARAMS = Arrays.asList( "storefile", "async", "jobid", "timeout");
 
-    public static ConversionResult convert(String fromFormat, String toFormat, Param[] params) {
+    public static CompletableFuture<ConversionResult> convert(String fromFormat, String toFormat, Param[] params) {
         return convert(fromFormat, toFormat, params, Config.defaults());
     }
 
-    public static ConversionResult convert(String fromFormat, String toFormat, Param[] params, Config config) {
+    public static CompletableFuture<ConversionResult> convert(String fromFormat, String toFormat, Param[] params, Config config) {
         CompletableFuture<ConversionResponse> completableResponse = CompletableFuture.supplyAsync(() -> {
             HttpUrl url = Http.getUrlBuilder(config)
                     .addPathSegment(fromFormat)
@@ -66,6 +67,31 @@ public class ConvertApi {
             return new Gson().fromJson(bodyString, ConversionResponse.class);
         });
 
-        return new ConversionResult(completableResponse);
+        return completableResponse.thenApply(r -> new ConversionResult(r));
+    }
+
+    public static User getUser() {
+        return getUser(Config.defaults());
+    }
+
+    public static User getUser(Config config) {
+        HttpUrl url = Http.getUrlBuilder(config).addPathSegment("user").build();
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Accept", "application/json")
+                .build();
+
+        String bodyString;
+        try {
+            Response response = Http.getClient().newCall(request).execute();
+            bodyString = response.body().string();
+            if (response.code() != 200) {
+                throw new ConversionException(bodyString);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return new Gson().fromJson(bodyString, User.class);
     }
 }
