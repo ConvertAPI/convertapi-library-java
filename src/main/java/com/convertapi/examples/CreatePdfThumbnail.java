@@ -8,7 +8,6 @@ import com.convertapi.Param;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -32,9 +31,9 @@ public class CreatePdfThumbnail {
 
         CompletableFuture<ConversionResult> thumbnailResult = ConvertApi.convert("pdf", "jpg", new Param[]{
                 new Param("file", pdfFirstPageResult),
-                new Param("scaleimage","true"),
-                new Param("scaleproportions","true"),
-                new Param("imageheight",300)
+                new Param("scaleimage", "true"),
+                new Param("scaleproportions", "true"),
+                new Param("imageheight", 300)
         });
 
         System.out.println("JPG thumbnail file saved to: " + thumbnailResult.get().saveFile(tempDir).get());

@@ -18,7 +18,7 @@ public class ConversionResult {
         this.response = responseFuture;
     }
 
-    public Integer fileCount() throws ExecutionException, InterruptedException {
+    public Integer fileCount() {
         return response.Files.length;
     }
 
@@ -28,7 +28,7 @@ public class ConversionResult {
         return valueList;
     }
 
-    public Integer conversionCost() throws ExecutionException, InterruptedException {
+    public Integer conversionCost() {
         return response.ConversionCost;
     }
 

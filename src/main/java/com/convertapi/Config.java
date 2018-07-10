@@ -18,6 +18,10 @@ public class Config {
         return new Config(Config.defaultSecret, SCHEME, HOST, TIMEOUT);
     }
 
+    public static Config defaults(String secret) {
+        return new Config(secret, SCHEME, HOST, TIMEOUT);
+    }
+
     public Config(String secret, String scheme, String host, int timeout) {
         this.scheme = scheme;
         this.host = host;

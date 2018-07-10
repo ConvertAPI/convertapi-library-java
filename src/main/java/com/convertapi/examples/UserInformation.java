@@ -1,16 +1,10 @@
 package com.convertapi.examples;
 
 import com.convertapi.Config;
-import com.convertapi.ConversionResult;
 import com.convertapi.ConvertApi;
-import com.convertapi.Param;
 import com.convertapi.model.User;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 /**

@@ -9,6 +9,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -58,7 +60,7 @@ public class ConvertApi {
                 Response response = Http.getClient().newCall(request).execute();
                 bodyString = response.body().string();
                 if (response.code() != 200) {
-                    throw new ConversionException(bodyString);
+                    throw new ConversionException(bodyString, response.code());
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -86,12 +88,39 @@ public class ConvertApi {
             Response response = Http.getClient().newCall(request).execute();
             bodyString = response.body().string();
             if (response.code() != 200) {
-                throw new ConversionException(bodyString);
+                throw new ConversionException(bodyString, response.code());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         return new Gson().fromJson(bodyString, User.class);
+    }
+
+    public static CompletableFuture<ConversionResult> convert(Path fromFile, String toFormat) throws IOException {
+        return convert(fromFile, toFormat, Config.defaults().getSecret());
+    }
+
+    public static CompletableFuture<ConversionResult> convert(Path fromFile, String toFormat, String secret) throws IOException {
+        return convert(getFileExtension(fromFile), toFormat, new Param[]{new Param("file", fromFile)}, Config.defaults(secret));
+    }
+
+    public static void convert(String fromPathToFile, String toPathToFile) {
+        convert(fromPathToFile, toPathToFile, Config.defaults().getSecret());
+    }
+
+    public static void convert(String fromPathToFile, String toPathToFile, String secret) {
+        try {
+            Path fromPath = Paths.get(fromPathToFile);
+            Path toPath = Paths.get(toPathToFile);
+            convert(fromPath, getFileExtension(toPath), secret).get().saveFile(toPath).get();
+        } catch (IOException | ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static String getFileExtension(Path path) {
+        String name = path.getFileName().toString();
+        return name.substring(name.lastIndexOf(".") + 1);
     }
 }
