@@ -24,7 +24,7 @@ public class ConvertRemoteFile {
         CompletableFuture<ConversionResult> result = ConvertApi.convert("pptx", "pdf", new Param[]{fileParam});
 
         Path pdfFile = Paths.get(System.getProperty("java.io.tmpdir") + "/myfile.pdf");
-        result.get().saveFile(pdfFile);
+        result.get().saveFile(pdfFile).get();
 
         System.out.println("PDF file saved to: " + pdfFile.toString());
     }

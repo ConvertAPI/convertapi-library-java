@@ -26,16 +26,16 @@ Config.setDefaultSecret("YOUR API SECRET");
 
 ### File conversion
 
-Example to convert file to PDF. All supported formats and options can be found 
+Example to convert DOCX file to PDF. All supported formats and options can be found
 [here](https://www.convertapi.com).
 
 ```java
 CompletableFuture<ConversionResult> result = ConvertApi.convert("docx", "pdf", new Param[]{
-    new Param("file", Paths.get("test-files/test.docx"))
+    new Param("file", Paths.get("test.docx"))
 });
 
 // save to file
-result.get().saveFile(Paths.get("/tmp/my_file.pdf"));
+result.get().saveFile(Paths.get("my_file.pdf")).get();
 ```
 
 Other result operations:
@@ -97,7 +97,7 @@ import com.convertapi.ConvertApi;
 
 public class SimpleConversion {
     public static void main(String[] args) {
-        ConvertApi.convert("test-files/test.docx", "result.pdf", "YOUR API SECRET");
+        ConvertApi.convert("test.docx", "result.pdf", "YOUR API SECRET");
     }
 }
 ```
