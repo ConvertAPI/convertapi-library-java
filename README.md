@@ -66,7 +66,7 @@ parameters and explanations can be found [here](https://www.convertapi.com).
 
 ```java
 CompletableFuture<ConversionResult> result = ConvertApi.convert("pdf", "jpg", new Param[]{
-        new Param("file", Paths.get("test-files/test.pdf")),
+        new Param("file", Paths.get("test.pdf")),
         new Param("scaleimage", "true"),
         new Param("scaleproportions", "true"),
         new Param("imageheight", 300)
@@ -91,13 +91,11 @@ You can find more advanced examples in the [examples](https://github.com/Convert
 ConvertAPI is designed to make converting file super easy, the following snippet shows how easy it is to get started. Let's convert WORD DOCX file to PDF:
 
 ```java
-package com.convertapi.examples;
-
 import com.convertapi.ConvertApi;
 
 public class SimpleConversion {
     public static void main(String[] args) {
-        ConvertApi.convert("test.docx", "result.pdf", "YOUR API SECRET");
+        ConvertApi.convert("source.docx", "result.pdf", "YOUR API SECRET");
     }
 }
 ```
