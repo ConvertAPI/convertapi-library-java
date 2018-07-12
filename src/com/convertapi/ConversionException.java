@@ -1,7 +1,7 @@
 package com.convertapi;
 
-public class ConversionException extends RuntimeException{
-    private int httpStatusCode;
+class ConversionException extends RuntimeException {
+    private final int httpStatusCode;
 
     public ConversionException(String message, int httpStatusCode){
         super(message);

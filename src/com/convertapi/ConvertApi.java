@@ -16,15 +16,19 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+@SuppressWarnings("WeakerAccess")
 public class ConvertApi {
+    @SuppressWarnings("SpellCheckingInspection")
     private static final List<String> IGNORE_PARAMS = Arrays.asList( "storefile", "async", "jobid", "timeout");
 
+    @SuppressWarnings("unused")
     public static CompletableFuture<ConversionResult> convert(String fromFormat, String toFormat, Param[] params) {
         return convert(fromFormat, toFormat, params, Config.defaults());
     }
 
     public static CompletableFuture<ConversionResult> convert(String fromFormat, String toFormat, Param[] params, Config config) {
         CompletableFuture<ConversionResponse> completableResponse = CompletableFuture.supplyAsync(() -> {
+            @SuppressWarnings("SpellCheckingInspection")
             HttpUrl url = Http.getUrlBuilder(config)
                     .addPathSegment(fromFormat)
                     .addPathSegment("to")
@@ -58,6 +62,7 @@ public class ConvertApi {
             String bodyString;
             try {
                 Response response = Http.getClient().newCall(request).execute();
+                //noinspection ConstantConditions
                 bodyString = response.body().string();
                 if (response.code() != 200) {
                     throw new ConversionException(bodyString, response.code());
@@ -69,9 +74,10 @@ public class ConvertApi {
             return new Gson().fromJson(bodyString, ConversionResponse.class);
         });
 
-        return completableResponse.thenApply(r -> new ConversionResult(r));
+        return completableResponse.thenApply(ConversionResult::new);
     }
 
+    @SuppressWarnings("unused")
     public static User getUser() {
         return getUser(Config.defaults());
     }
@@ -86,6 +92,7 @@ public class ConvertApi {
         String bodyString;
         try {
             Response response = Http.getClient().newCall(request).execute();
+            //noinspection ConstantConditions
             bodyString = response.body().string();
             if (response.code() != 200) {
                 throw new ConversionException(bodyString, response.code());
@@ -97,6 +104,7 @@ public class ConvertApi {
         return new Gson().fromJson(bodyString, User.class);
     }
 
+    @SuppressWarnings("unused")
     public static CompletableFuture<ConversionResult> convert(Path fromFile, String toFormat) throws IOException {
         return convert(fromFile, toFormat, Config.defaults().getSecret());
     }
@@ -105,6 +113,7 @@ public class ConvertApi {
         return convert(getFileExtension(fromFile), toFormat, new Param[]{new Param("file", fromFile)}, Config.defaults(secret));
     }
 
+    @SuppressWarnings("unused")
     public static void convert(String fromPathToFile, String toPathToFile) {
         convert(fromPathToFile, toPathToFile, Config.defaults().getSecret());
     }

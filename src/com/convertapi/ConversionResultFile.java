@@ -17,6 +17,7 @@ public class ConversionResultFile {
         this.conversionResponseFile = conversionResponseFile;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public String getName() {
         return conversionResponseFile.FileName;
     }
@@ -25,14 +26,17 @@ public class ConversionResultFile {
         return conversionResponseFile.FileSize;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public String getUrl() {
         return conversionResponseFile.Url;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public CompletableFuture<InputStream> asStream() {
         return Http.requestGet(getUrl());
     }
 
+    @SuppressWarnings("WeakerAccess")
     public CompletableFuture<Path> saveFile(Path path) {
         return asStream().thenApplyAsync(s -> {
             try {

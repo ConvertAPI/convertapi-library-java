@@ -9,14 +9,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.CompletableFuture;
 
-public class Http {
-    private static OkHttpClient client = new OkHttpClient();
+class Http {
+    private static final OkHttpClient client = new OkHttpClient();
 
-    public static OkHttpClient getClient() {
+    static OkHttpClient getClient() {
         return client;
     }
 
-    public static HttpUrl.Builder getUrlBuilder(Config config) {
+    static HttpUrl.Builder getUrlBuilder(Config config) {
         return new HttpUrl.Builder()
                 .scheme(config.getScheme())
                 .host(config.getHost())
@@ -24,15 +24,16 @@ public class Http {
                 .addQueryParameter("secret", config.getSecret());
     }
 
-    public static CompletableFuture<InputStream> requestGet(String url) {
+    static CompletableFuture<InputStream> requestGet(String url) {
         return CompletableFuture.supplyAsync(() -> {
             Request request = new Request.Builder().url(url).build();
-            Response response = null;
+            Response response;
             try {
                 response = getClient().newCall(request).execute();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            //noinspection ConstantConditions
             return response.body().byteStream();
         });
     }

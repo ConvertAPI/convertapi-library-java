@@ -1,5 +1,6 @@
 package com.convertapi.model;
 
+@SuppressWarnings("unused")
 public class User {
     public String Secret;
     public int ApiKey;
