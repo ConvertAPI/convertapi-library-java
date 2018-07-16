@@ -46,6 +46,18 @@ class Http {
         });
     }
 
+    static CompletableFuture<Void> requestDelete(String url) {
+        return CompletableFuture.supplyAsync(() -> {
+            Request request = getRequestBuilder().delete().url(url).build();
+            try {
+                getClient().newCall(request).execute();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return null;
+        });
+    }
+
     static Request.Builder getRequestBuilder() {
         return new Request.Builder()
                 .header("User-Agent", "convertapi-java");

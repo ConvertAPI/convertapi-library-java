@@ -48,4 +48,9 @@ public class ConversionResultFile {
             }
         });
     }
+
+    @SuppressWarnings("WeakerAccess")
+    public CompletableFuture delete() {
+        return Http.requestDelete(getUrl());
+    }
 }

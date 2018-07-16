@@ -18,6 +18,7 @@ import java.util.concurrent.ExecutionException;
 public class Param {
     private final String name;
     private CompletableFuture<List<String>> value;
+    private boolean isUploadedFile = false;
 
     @SuppressWarnings("unused")
     private Param(String name) {
@@ -53,6 +54,7 @@ public class Param {
         String fileName = "getFile." + fileFormat;
         String contentTypeString = MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(fileName);
         this.value = upload(value, fileName, MediaType.parse(contentTypeString), config);
+        isUploadedFile = true;
     }
 
     public Param(String name, Path value) throws IOException {
@@ -64,6 +66,7 @@ public class Param {
         this(name);
         String contentTypeString = MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(value.toFile());
         this.value = upload(Files.readAllBytes(value), value.getFileName().toString(), MediaType.parse(contentTypeString), config);
+        isUploadedFile = true;
     }
 
     @SuppressWarnings("unused")
@@ -92,6 +95,12 @@ public class Param {
 
     public List<String> getValue() throws ExecutionException, InterruptedException {
         return this.value.get();
+    }
+
+    public CompletableFuture<Void> delete() {
+        return isUploadedFile
+                ? value.thenCompose(urls -> Http.requestDelete(urls.get(0)))
+                : CompletableFuture.completedFuture(null);
     }
 
     private static CompletableFuture<List<String>> upload(byte[] data, String fileName, MediaType fileContentType, Config config) {

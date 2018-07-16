@@ -65,4 +65,24 @@ public class ConversionResult {
             }
         }).collect(Collectors.toList());
     }
+
+    @SuppressWarnings("WeakerAccess")
+    public List<CompletableFuture> delete() {
+        List<CompletableFuture> futures = new ArrayList<>();
+        for (int i = 0; i < response.Files.length; i++) {
+            futures.add(getFile(i).delete());
+        }
+        return futures;
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public void deleteSync() {
+        delete().forEach(d -> {
+            try {
+                d.get();
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 }
