@@ -53,7 +53,7 @@ public class ConvertApi {
                 }
             }
 
-            Request request = new Request.Builder()
+            Request request = Http.getRequestBuilder()
                     .url(url)
                     .addHeader("Accept", "application/json")
                     .post(multipartBuilder.build())
@@ -61,7 +61,7 @@ public class ConvertApi {
 
             String bodyString;
             try {
-                Response response = Http.getClient().newCall(request).execute();
+                Response response = Http.getClient(config).newCall(request).execute();
                 //noinspection ConstantConditions
                 bodyString = response.body().string();
                 if (response.code() != 200) {
@@ -84,7 +84,7 @@ public class ConvertApi {
 
     public static User getUser(Config config) {
         HttpUrl url = Http.getUrlBuilder(config).addPathSegment("user").build();
-        Request request = new Request.Builder()
+        Request request = Http.getRequestBuilder()
                 .url(url)
                 .addHeader("Accept", "application/json")
                 .build();

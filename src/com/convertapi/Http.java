@@ -8,12 +8,20 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 class Http {
     private static final OkHttpClient client = new OkHttpClient();
 
     static OkHttpClient getClient() {
         return client;
+    }
+
+    static OkHttpClient getClient(Config config) {
+        return config.getHttpClientBuilder()
+                .apply(getClient().newBuilder())
+                .readTimeout(config.getTimeout() + 5, TimeUnit.SECONDS)
+                .build();
     }
 
     static HttpUrl.Builder getUrlBuilder(Config config) {
@@ -26,7 +34,7 @@ class Http {
 
     static CompletableFuture<InputStream> requestGet(String url) {
         return CompletableFuture.supplyAsync(() -> {
-            Request request = new Request.Builder().url(url).build();
+            Request request = getRequestBuilder().url(url).build();
             Response response;
             try {
                 response = getClient().newCall(request).execute();
@@ -36,5 +44,10 @@ class Http {
             //noinspection ConstantConditions
             return response.body().byteStream();
         });
+    }
+
+    static Request.Builder getRequestBuilder() {
+        return new Request.Builder()
+                .header("User-Agent", "convertapi-java");
     }
 }
