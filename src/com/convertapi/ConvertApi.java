@@ -30,6 +30,7 @@ public class ConvertApi {
         CompletableFuture<ConversionResponse> completableResponse = CompletableFuture.supplyAsync(() -> {
             @SuppressWarnings("SpellCheckingInspection")
             HttpUrl url = Http.getUrlBuilder(config)
+                    .addPathSegment("convert")
                     .addPathSegment(fromFormat)
                     .addPathSegment("to")
                     .addPathSegment(toFormat)
