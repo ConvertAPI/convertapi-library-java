@@ -1,14 +1,17 @@
 package com.convertapi.examples;
 
+import com.convertapi.Config;
+import com.convertapi.ConversionResult;
+import com.convertapi.ConvertApi;
+import com.convertapi.Param;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import com.convertapi.Config;
-import com.convertapi.ConversionResult;
-import com.convertapi.ConvertApi;
-import com.convertapi.Param;
+
+import static java.lang.System.getenv;
 
 /**
  * Short example of conversions chaining, the PDF pages extracted and saved as separated JPGs and then ZIP'ed
@@ -17,13 +20,13 @@ import com.convertapi.Param;
 
 public class ConversionChaining {
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-        Config.setDefaultSecret("YOUR API SECRET");    //Get your secret at https://www.convertapi.com/a
+        Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));    //Get your secret at https://www.convertapi.com/a
 
         System.out.println("Converting PDF to JPG and compressing result files with ZIP");
-        CompletableFuture<ConversionResult> jpgResult = ConvertApi.convert("docx", "jpg", new Param[]{new Param("file", Paths.get("test-files/test.docx"))});
+        CompletableFuture<ConversionResult> jpgResult = ConvertApi.convert("docx", "jpg", new Param("file", Paths.get("test-files/test.docx")));
         System.out.println("ConvertApi.convert is not blocking method, proceeding to ZIP conversion");
 
-        CompletableFuture<ConversionResult> zipResult = ConvertApi.convert("jpg", "zip", new Param[]{new Param("files", jpgResult)});
+        CompletableFuture<ConversionResult> zipResult = ConvertApi.convert("jpg", "zip", new Param("files", jpgResult));
 
         System.out.println("Saving result file (blocking operation)");
         Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));

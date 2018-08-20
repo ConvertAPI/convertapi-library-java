@@ -14,13 +14,15 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.System.getenv;
+
 /**
  * Example of HTTP client setup to use HTTP proxy server.
  */
 
 public class Advanced {
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-        Config.setDefaultSecret("YOUR API SECRET");    //Get your secret at https://www.convertapi.com/a
+        Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));    //Get your secret at https://www.convertapi.com/a
 
         // Advanced HTTP client setup
         Config.setDefaultHttpBuilder(builder -> {
@@ -33,7 +35,7 @@ public class Advanced {
         // Conversion
         Param fileParam = new Param("file", "https://cdn.convertapi.com/cara/testfiles/presentation.pptx");
         System.out.println("Converting remote PPTX to PDF");
-        CompletableFuture<ConversionResult> result = ConvertApi.convert("pptx", "pdf", new Param[]{fileParam});
+        CompletableFuture<ConversionResult> result = ConvertApi.convert("pptx", "pdf", fileParam);
         Path pdfFile = Paths.get(System.getProperty("java.io.tmpdir") + "/myfile.pdf");
         result.get().saveFile(pdfFile).get();
 

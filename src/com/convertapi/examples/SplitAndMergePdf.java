@@ -30,7 +30,6 @@ public class SplitAndMergePdf {
 
         CompletableFuture<ConversionResult> mergeResult = ConvertApi.convert("pdf", "merge",
                 new Param("files", splitResult, 0),
-                new Param("files", "http://www.pdf995.com/samples/pdf.pdf"),
                 new Param("files", splitResult, -1)
         );
 
