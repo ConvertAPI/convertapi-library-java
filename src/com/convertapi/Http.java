@@ -59,7 +59,7 @@ class Http {
     }
 
     static Request.Builder getRequestBuilder() {
-        return new Request.Builder()
-                .header("User-Agent", "convertapi-java");
+        String agent = String.format("ConvertAPI-Java/%.1f (%s)", 1.4, System.getProperty("os.name"));
+        return new Request.Builder().header("User-Agent", agent);
     }
 }

@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import static java.lang.System.getenv;
+
 /**
  * Example of saving Word docx to PDF and to PNG
  * Conversion is made by using same file parameter and processing two conversions simultaneously
@@ -21,15 +23,15 @@ import java.util.concurrent.ExecutionException;
 
 public class ConvertWordToPdfAndPng {
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-        Config.setDefaultSecret("YOUR API SECRET");    //Get your secret at https://www.convertapi.com/a
+        Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));    //Get your secret at https://www.convertapi.com/a
         Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
 
         System.out.println("Converting DOCX to PDF and JPG in parallel");
 
         Param docxFileParam = new Param("file", Paths.get("test-files/test.docx"));
 
-        CompletableFuture<ConversionResult> pdfResult = ConvertApi.convert("docx", "pdf", new Param[]{docxFileParam});
-        CompletableFuture<ConversionResult> jpgResult = ConvertApi.convert("docx", "jpg", new Param[]{docxFileParam});
+        CompletableFuture<ConversionResult> pdfResult = ConvertApi.convert("docx", "pdf", docxFileParam);
+        CompletableFuture<ConversionResult> jpgResult = ConvertApi.convert("docx", "jpg", docxFileParam);
 
         System.out.println("PDF file saved to: " + pdfResult.get().saveFile(tempDir).get());
 

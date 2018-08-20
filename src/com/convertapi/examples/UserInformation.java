@@ -7,6 +7,8 @@ import com.convertapi.model.User;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+import static java.lang.System.getenv;
+
 /**
  * Retrieve user information
  * https://www.convertapi.com/doc/user
@@ -14,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 
 public class UserInformation {
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-        Config.setDefaultSecret("YOUR API SECRET");    //Get your secret at https://www.convertapi.com/a
+        Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));    //Get your secret at https://www.convertapi.com/a
         User user = ConvertApi.getUser();
 
         System.out.println("API Key: " + user.ApiKey);
