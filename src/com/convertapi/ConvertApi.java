@@ -11,7 +11,9 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -22,7 +24,7 @@ public class ConvertApi {
     private static final List<String> IGNORE_PARAMS = Arrays.asList( "storefile", "async", "jobid", "timeout");
 
     @SuppressWarnings("unused")
-    public static CompletableFuture<ConversionResult> convert(String fromFormat, String toFormat, Param[] params) {
+    public static CompletableFuture<ConversionResult> convert(String fromFormat, String toFormat, Param... params) {
         return convert(fromFormat, toFormat, params, Config.defaults());
     }
 
@@ -38,18 +40,17 @@ public class ConvertApi {
                     .build();
 
             MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
-            for (Param param: params) {
-                if (!IGNORE_PARAMS.contains(param.getName())) {
-                    try {
-                        if (param.getValue().size() == 1) {
-                            multipartBuilder.addFormDataPart(param.getName(), param.getValue().get(0));
-                        } else {
-                            for (int i = 0; i < param.getValue().size(); i++) {
-                                multipartBuilder.addFormDataPart(param.getName() + "[" + i + "]", param.getValue().get(i));
-                            }
+            HashMap<String, List<String>> paramValues = getParamValues(params);
+
+            for (String name : paramValues.keySet()) {
+                if (!IGNORE_PARAMS.contains(name)) {
+                    List<String> values = paramValues.get(name);
+                    if (paramValues.get(name).size() == 1) {
+                        multipartBuilder.addFormDataPart(name, values.get(0));
+                    } else {
+                        for (int i = 0; i < values.size(); i++) {
+                            multipartBuilder.addFormDataPart(name + "[" + i + "]", values.get(i));
                         }
-                    } catch (ExecutionException | InterruptedException e) {
-                        throw new RuntimeException(e);
                     }
                 }
             }
@@ -132,5 +133,20 @@ public class ConvertApi {
     private static String getFileExtension(Path path) {
         String name = path.getFileName().toString();
         return name.substring(name.lastIndexOf(".") + 1);
+    }
+
+    private static HashMap<String, List<String>> getParamValues(Param[] params) {
+        HashMap<String, List<String>> result = new HashMap<>();
+
+        try {
+            for (Param param : params) {
+                List<String> values = result.computeIfAbsent(param.getName(), (v) -> new ArrayList<>());
+                values.addAll(param.getValue());
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
     }
 }

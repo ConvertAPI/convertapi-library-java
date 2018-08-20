@@ -37,6 +37,7 @@ public class ConversionResult {
     }
 
     public ConversionResultFile getFile(int index) {
+        if (index < 0) index = response.Files.length + index;
         return new ConversionResultFile(response.Files[index]);
     }
 

@@ -1,16 +1,18 @@
 package com.convertapi.examples;
 
+import com.convertapi.Config;
+import com.convertapi.ConversionResult;
+import com.convertapi.ConvertApi;
+import com.convertapi.Param;
+
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-
-import com.convertapi.Config;
-import com.convertapi.ConversionResult;
-import com.convertapi.ConvertApi;
-import com.convertapi.Param;
 
 /**
  * Example of HTTP client setup to use HTTP proxy server.
