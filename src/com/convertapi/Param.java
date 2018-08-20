@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -81,6 +82,12 @@ public class Param {
         List<String> valueList = new ArrayList<>();
         valueList.add(value.getFile(fileIndex).getUrl());
         this.value = CompletableFuture.completedFuture(valueList);
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public Param(String name, CompletableFuture<ConversionResult> value, int fileIndex) {
+        this(name);
+        this.value = value.thenApply((res) -> Arrays.asList(res.getFile(fileIndex).getUrl()));
     }
 
     @SuppressWarnings("unused")

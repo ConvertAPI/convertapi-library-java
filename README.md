@@ -30,9 +30,7 @@ Example to convert DOCX file to PDF. All supported formats and options can be fo
 [here](https://www.convertapi.com).
 
 ```java
-CompletableFuture<ConversionResult> result = ConvertApi.convert("docx", "pdf", new Param[]{
-    new Param("file", Paths.get("test.docx"))
-});
+CompletableFuture<ConversionResult> result = ConvertApi.convert("docx", "pdf", new Param("file", Paths.get("test.docx")));
 
 // save to file
 result.get().saveFile(Paths.get("my_file.pdf")).get();
@@ -54,9 +52,9 @@ Integer cost = result.get().conversionCost();
 #### Convert file url
 
 ```java
-CompletableFuture<ConversionResult> result = ConvertApi.convert("pptx", "pdf", new Param[]{
+CompletableFuture<ConversionResult> result = ConvertApi.convert("pptx", "pdf",
     new Param("file", "https://cdn.convertapi.com/cara/testfiles/presentation.pptx")
-});
+);
 ```
 
 #### Additional conversion parameters
@@ -65,12 +63,12 @@ ConvertAPI accepts extra conversion parameters depending on converted formats. A
 parameters and explanations can be found [here](https://www.convertapi.com).
 
 ```java
-CompletableFuture<ConversionResult> result = ConvertApi.convert("pdf", "jpg", new Param[]{
+CompletableFuture<ConversionResult> result = ConvertApi.convert("pdf", "jpg",
         new Param("file", Paths.get("test.pdf")),
         new Param("scaleimage", "true"),
         new Param("scaleproportions", "true"),
         new Param("imageheight", 300)
-});
+);
 ```
 
 ### User information
