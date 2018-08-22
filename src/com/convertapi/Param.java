@@ -4,13 +4,12 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-import javax.activation.MimetypesFileTypeMap;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -53,8 +52,7 @@ public class Param {
     public Param(String name, byte[] value, String fileFormat, Config config) {
         this(name);
         String fileName = "getFile." + fileFormat;
-        String contentTypeString = MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(fileName);
-        this.value = upload(value, fileName, MediaType.parse(contentTypeString), config);
+        this.value = upload(value, fileName, config);
         isUploadedFile = true;
     }
 
@@ -65,8 +63,7 @@ public class Param {
     @SuppressWarnings("WeakerAccess")
     public Param(String name, Path value, Config config) throws IOException {
         this(name);
-        String contentTypeString = MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(value.toFile());
-        this.value = upload(Files.readAllBytes(value), value.getFileName().toString(), MediaType.parse(contentTypeString), config);
+        this.value = upload(Files.readAllBytes(value), value.getFileName().toString(), config);
         isUploadedFile = true;
     }
 
@@ -87,7 +84,7 @@ public class Param {
     @SuppressWarnings("WeakerAccess")
     public Param(String name, CompletableFuture<ConversionResult> value, int fileIndex) {
         this(name);
-        this.value = value.thenApply((res) -> Arrays.asList(res.getFile(fileIndex).getUrl()));
+        this.value = value.thenApply((res) -> Collections.singletonList(res.getFile(fileIndex).getUrl()));
     }
 
     @SuppressWarnings("unused")
@@ -110,13 +107,13 @@ public class Param {
                 : CompletableFuture.completedFuture(null);
     }
 
-    private static CompletableFuture<List<String>> upload(byte[] data, String fileName, MediaType fileContentType, Config config) {
+    private static CompletableFuture<List<String>> upload(byte[] data, String fileName, Config config) {
         return CompletableFuture.supplyAsync(() -> {
             Request request = Http.getRequestBuilder()
                     .url(Http.getUrlBuilder(config).addPathSegment("upload")
                             .addQueryParameter("filename", fileName)
                             .build())
-                    .post(RequestBody.create(fileContentType, data))
+                    .post(RequestBody.create(MediaType.parse("application/octet-stream"), data))
                     .build();
             try {
                 List<String> valueList = new ArrayList<>();
