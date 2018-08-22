@@ -12,7 +12,7 @@ You can get your free API secret at https://www.convertapi.com/a
 
 ## Installation
 
-Download **[latest JAR file](https://github.com/ConvertAPI/convertapi-java/releases/download/v1.4/convertapi-1.4.jar)** and place it in your project library directory.
+Download **[latest JAR file](https://github.com/ConvertAPI/convertapi-java/releases/download/v1.5/convertapi-1.5.jar)** and place it in your project library directory.
 
 ## Usage
 
