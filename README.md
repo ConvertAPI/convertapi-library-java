@@ -93,7 +93,7 @@ import com.convertapi.ConvertApi;
 
 public class SimpleConversion {
     public static void main(String[] args) {
-        ConvertApi.convert("source.docx", "result.pdf", "YOUR API SECRET");
+        ConvertApi.convert("source.docx", "result.pdf", "your api secret");
     }
 }
 ```
