@@ -21,7 +21,7 @@ Download **[latest JAR file](https://github.com/ConvertAPI/convertapi-java/relea
 You can get your secret at https://www.convertapi.com/a
 
 ```java
-Config.setDefaultSecret("YOUR API SECRET");
+Config.setDefaultSecret("your api secret");
 ```
 
 ### File conversion
