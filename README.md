@@ -106,4 +106,4 @@ Please leave all comments, bugs, requests, and issues on the Issues page. We'll 
 
 ### License
 The ConvertAPI Java Library is licensed under the [MIT](http://www.opensource.org/licenses/mit-license.php "Read more about the MIT license form") license.
-Refer to the [LICENSE](https://github.com/ConvertAPI/convertapi-java/blob/master/LICENSE) file for more information.
+Refer to the [LICENSE](https://raw.githubusercontent.com/ConvertAPI/convertapi-java/master/LICENSE.txt) file for more information.
