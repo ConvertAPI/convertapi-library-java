@@ -2,7 +2,7 @@ package com.convertapi.examples;
 
 import com.convertapi.Config;
 import com.convertapi.ConvertApi;
-import com.convertapi.model.User;
+import com.convertapi.client.model.User;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;

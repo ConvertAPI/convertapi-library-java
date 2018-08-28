@@ -1,16 +1,16 @@
-package com.convertapi;
+package com.convertapi.client;
 
 import okhttp3.OkHttpClient;
 
 import java.util.function.Function;
 
 public class Config {
-    private static String defaultSecret;
-    private static Function<OkHttpClient.Builder, OkHttpClient.Builder> defaultHttpClientBuilder = b -> b;
     private static final String SCHEME = "https";
     @SuppressWarnings("SpellCheckingInspection")
     private static final String HOST = "v2.convertapi.com";
     private static final int TIMEOUT = 180;
+    private static String defaultSecret;
+    private static Function<OkHttpClient.Builder, OkHttpClient.Builder> defaultHttpClientBuilder = b -> b;
     private final String scheme;
     private final String host;
     private final String secret;

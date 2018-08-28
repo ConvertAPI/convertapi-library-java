@@ -1,4 +1,4 @@
-package com.convertapi.model;
+package com.convertapi.client.model;
 
 @SuppressWarnings("CanBeFinal")
 public class ConversionResponse {

@@ -1,7 +1,7 @@
-package com.convertapi;
+package com.convertapi.client;
 
-import com.convertapi.model.ConversionResponse;
-import com.convertapi.model.User;
+import com.convertapi.client.model.ConversionResponse;
+import com.convertapi.client.model.User;
 import com.google.gson.Gson;
 import okhttp3.HttpUrl;
 import okhttp3.MultipartBody;
@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutionException;
 @SuppressWarnings("WeakerAccess")
 public class ConvertApi {
     @SuppressWarnings("SpellCheckingInspection")
-    private static final List<String> IGNORE_PARAMS = Arrays.asList( "storefile", "async", "jobid", "timeout");
+    private static final List<String> IGNORE_PARAMS = Arrays.asList("storefile", "async", "jobid", "timeout");
 
     @SuppressWarnings("unused")
     public static CompletableFuture<ConversionResult> convert(String fromFormat, String toFormat, Param... params) {

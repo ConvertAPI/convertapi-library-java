@@ -1,4 +1,4 @@
-package com.convertapi;
+package com.convertapi.client;
 
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -93,20 +93,6 @@ public class Param {
         this.value = value.thenApply(ConversionResult::urls);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public List<String> getValue() throws ExecutionException, InterruptedException {
-        return this.value.get();
-    }
-
-    public CompletableFuture<Void> delete() {
-        return isUploadedFile
-                ? value.thenCompose(urls -> Http.requestDelete(urls.get(0)))
-                : CompletableFuture.completedFuture(null);
-    }
-
     private static CompletableFuture<List<String>> upload(byte[] data, String fileName, Config config) {
         return CompletableFuture.supplyAsync(() -> {
             Request request = Http.getRequestBuilder()
@@ -124,5 +110,19 @@ public class Param {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<String> getValue() throws ExecutionException, InterruptedException {
+        return this.value.get();
+    }
+
+    public CompletableFuture<Void> delete() {
+        return isUploadedFile
+                ? value.thenCompose(urls -> Http.requestDelete(urls.get(0)))
+                : CompletableFuture.completedFuture(null);
     }
 }

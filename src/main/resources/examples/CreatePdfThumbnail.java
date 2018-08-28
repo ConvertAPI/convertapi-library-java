@@ -1,4 +1,4 @@
-package com.convertapi.examples;
+package com.convertapi.client.examples;
 
 import com.convertapi.Config;
 import com.convertapi.ConversionResult;

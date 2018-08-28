@@ -1,4 +1,4 @@
-package com.convertapi;
+package com.convertapi.client;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -59,7 +59,8 @@ class Http {
     }
 
     static Request.Builder getRequestBuilder() {
-        String agent = String.format("ConvertAPI-Java/%.1f (%s)", 1.5, System.getProperty("os.name"));
+        System.console().printf("VERSIJA: %s", Http.class.getPackage().getImplementationVersion());
+        String agent = String.format("ConvertAPI-Java/%.1f (%s)", Http.class.getPackage().getImplementationVersion(), System.getProperty("os.name"));
         return new Request.Builder().header("User-Agent", agent);
     }
 }
