@@ -1,5 +1,4 @@
-<object type="text/plain" data="https://raw.githubusercontent.com/ConvertAPI/convertapi-java/master/src/com/convertapi/examples/SimpleConversion.java">
-
+<div><object data="https://raw.githubusercontent.com/ConvertAPI/convertapi-java/master/src/com/convertapi/examples/SimpleConversion.java"></object></div>
 
 #### 1. Install the ConvertAPI library from NuGet
 
