@@ -1,4 +1,4 @@
-<div>cia:<embed src="https://raw.githubusercontent.com/ConvertAPI/convertapi-java/master/src/com/convertapi/examples/SimpleConversion.java"></div>
+<div>cia:<embed type="text/plain" src="https://raw.githubusercontent.com/ConvertAPI/convertapi-java/master/src/com/convertapi/examples/SimpleConversion.java"></div>
 
 #### 1. Install the ConvertAPI library from NuGet
 
