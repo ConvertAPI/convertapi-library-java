@@ -14,15 +14,18 @@ public class SimpleConversion {
         Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));    //Get your secret at https://www.convertapi.com/a
 
         // Simplified file to file conversion example
-        ConvertApi.convert("test-files/test.docx", "/tmp/result.pdf");
+        ConvertApi.convertFile("test-files/test.docx", "/tmp/result.pdf");
 
         // Simplified file to multiple files conversion example
-        ConvertApi.convertFile("test-files/test.docx", "jpg", "/tmp");
+        ConvertApi.convertFileToDir("test-files/test.docx", "jpg", "/tmp");
 
         // Simplified web site to pdf conversion example
         ConvertApi.convertUrl("http://example.com", "/tmp/example.pdf");
 
         // Simplified remote file to local file conversion example
-        ConvertApi.convertRemoteFile("http://www.pdf995.com/samples/pdf.pdf", "/tmp/example.jpg");
+        ConvertApi.convertRemoteFile("https://calibre-ebook.com/downloads/demos/demo.docx", "/tmp/demo.pdf");
+
+        // Simplified remote file to local file conversion example
+        ConvertApi.convertRemoteFileToDir("http://www.pdf995.com/samples/pdf.pdf", "jpg", "/tmp");
     }
 }

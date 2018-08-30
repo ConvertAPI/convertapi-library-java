@@ -108,39 +108,39 @@ public class ConvertApi {
     }
 
     @SuppressWarnings("unused")
-    public static CompletableFuture<ConversionResult> convert(Path fromFile, String toFormat, Param... params) throws IOException {
-        return convert(fromFile, toFormat, Config.defaults().getSecret(), params);
+    public static CompletableFuture<ConversionResult> convertFile(Path fromFile, String toFormat, Param... params) throws IOException {
+        return convertFile(fromFile, toFormat, Config.defaults().getSecret(), params);
     }
 
-    public static CompletableFuture<ConversionResult> convert(Path fromFile, String toFormat, String secret, Param... params) throws IOException {
+    public static CompletableFuture<ConversionResult> convertFile(Path fromFile, String toFormat, String secret, Param... params) throws IOException {
         Param[] fileParam = new Param[]{new Param("file", fromFile)};
         return convert(getFileExtension(fromFile), toFormat, Param.concat(fileParam, params), Config.defaults(secret));
     }
 
     @SuppressWarnings("unused")
-    public static void convert(String fromPathToFile, String toPathToFile) {
-        convert(fromPathToFile, toPathToFile, Config.defaults().getSecret());
+    public static void convertFile(String fromPathToFile, String toPathToFile) {
+        convertFile(fromPathToFile, toPathToFile, Config.defaults().getSecret());
     }
 
-    public static void convert(String fromPathToFile, String toPathToFile, String secret, Param... params) {
+    public static void convertFile(String fromPathToFile, String toPathToFile, String secret, Param... params) {
         try {
             Path fromPath = Paths.get(fromPathToFile);
             Path toPath = Paths.get(toPathToFile);
-            convert(fromPath, getFileExtension(toPath), secret, params).get().saveFile(toPath).get();
+            convertFile(fromPath, getFileExtension(toPath), secret, params).get().saveFile(toPath).get();
         } catch (IOException | ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static List<Path> convertFile(String fromPathToFile, String toFormat, String outputDirectory, Param... params) {
-        return convertFile(fromPathToFile, toFormat, outputDirectory, Config.defaults().getSecret(), params);
+    public static List<Path> convertFileToDir(String fromPathToFile, String toFormat, String outputDirectory, Param... params) {
+        return convertFileToDir(fromPathToFile, toFormat, outputDirectory, Config.defaults().getSecret(), params);
     }
 
-    public static List<Path> convertFile(String fromPathToFile, String toFormat, String outputDirectory, String secret, Param... params) {
+    public static List<Path> convertFileToDir(String fromPathToFile, String toFormat, String outputDirectory, String secret, Param... params) {
         try {
             Path fromPath = Paths.get(fromPathToFile);
             Path toPath = Paths.get(outputDirectory);
-            return convert(fromPath, toFormat, secret).get().saveFilesSync(toPath);
+            return convertFile(fromPath, toFormat, secret, params).get().saveFilesSync(toPath);
         } catch (IOException | ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -171,6 +171,21 @@ public class ConvertApi {
             return convert(response.FileExt, getFileExtension(toPath), new Param[]{
                     new Param("file", response.FileId)
             }, Config.defaults(secret)).get().saveFile(toPath).get();
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<Path> convertRemoteFileToDir(String url, String toFormat, String outputDirectory, Param... params) {
+        return convertRemoteFileToDir(url, toFormat, outputDirectory, Config.defaults().getSecret(), params);
+    }
+
+    public static List<Path> convertRemoteFileToDir(String url, String toFormat, String outputDirectory, String secret, Param... params) {
+        RemoteUploadResponse response = Http.remoteUpload(url, Config.defaults(secret));
+        try {
+            Path toPath = Paths.get(outputDirectory);
+            Param[] fileParam = new Param[]{new Param("file", response.FileId)};
+            return convert(response.FileExt, toFormat, Param.concat(fileParam, params), Config.defaults(secret)).get().saveFilesSync(toPath);
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
