@@ -1,9 +1,8 @@
 package com.convertapi;
 
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import com.convertapi.model.RemoteUploadResponse;
+import com.google.gson.Gson;
+import okhttp3.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,7 +58,34 @@ class Http {
     }
 
     static Request.Builder getRequestBuilder() {
-        String agent = String.format("ConvertAPI-Java/%.1f (%s)", 1.5, System.getProperty("os.name"));
+        String agent = String.format("ConvertAPI-Java/%.1f (%s)", 1.6, System.getProperty("os.name"));
         return new Request.Builder().header("User-Agent", agent);
+    }
+
+    static RemoteUploadResponse remoteUpload(String urlToFile, Config config) {
+        HttpUrl url = Http.getUrlBuilder(config)
+                .addPathSegment("upload-from-url")
+                .addQueryParameter("url", urlToFile)
+                .build();
+
+        Request request = Http.getRequestBuilder()
+                .url(url)
+                .method("POST", RequestBody.create(null, ""))
+                .addHeader("Accept", "application/json")
+                .build();
+
+        String bodyString;
+        try {
+            Response response = Http.getClient().newCall(request).execute();
+            //noinspection ConstantConditions
+            bodyString = response.body().string();
+            if (response.code() != 200) {
+                throw new ConversionException(bodyString, response.code());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return new Gson().fromJson(bodyString, RemoteUploadResponse.class);
     }
 }

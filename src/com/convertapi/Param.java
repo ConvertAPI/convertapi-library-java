@@ -116,13 +116,19 @@ public class Param {
                     .post(RequestBody.create(MediaType.parse("application/octet-stream"), data))
                     .build();
             try {
-                List<String> valueList = new ArrayList<>();
+                String id = Http.getClient().newCall(request).execute().body().string();
                 //noinspection ConstantConditions
-                valueList.add(Http.getClient().newCall(request).execute().body().string());
-                return valueList;
+                return Collections.singletonList(id);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    public static Param[] concat(Param[] a, Param[] b) {
+        Param[] result = new Param[a.length + b.length];
+        System.arraycopy(a, 0, result, 0, a.length);
+        System.arraycopy(b, 0, result, a.length, b.length);
+        return result;
     }
 }
