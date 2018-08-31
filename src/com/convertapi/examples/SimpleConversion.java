@@ -23,9 +23,9 @@ public class SimpleConversion {
         ConvertApi.convertUrl("http://example.com", "/tmp/example.pdf");
 
         // Simplified remote file to local file conversion example
-        ConvertApi.convertRemoteFile("https://calibre-ebook.com/downloads/demos/demo.docx", "/tmp/demo.pdf");
+        ConvertApi.convertRemoteFile("https://cdn.convertapi.com/cara/testfiles/document.docx", "/tmp/demo.pdf");
 
         // Simplified remote file to local file conversion example
-        ConvertApi.convertRemoteFileToDir("http://www.pdf995.com/samples/pdf.pdf", "jpg", "/tmp");
+        ConvertApi.convertRemoteFileToDir("https://cdn.convertapi.com/cara/testfiles/document.docx", "jpg", "/tmp");
     }
 }
