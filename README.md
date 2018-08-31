@@ -12,7 +12,7 @@ You can get your free API secret at https://www.convertapi.com/a
 
 ## Installation
 
-Download **[latest JAR file](https://github.com/ConvertAPI/convertapi-java/releases/download/v1.5/convertapi-1.5.jar)** and place it in your project library directory.
+Download **[latest JAR file](https://github.com/ConvertAPI/convertapi-java/releases/download/v1.6/convertapi-1.6.jar)** and place it in your project library directory.
 
 ## Usage
 
@@ -93,7 +93,7 @@ import com.convertapi.ConvertApi;
 
 public class SimpleConversion {
     public static void main(String[] args) {
-        ConvertApi.convert("source.docx", "result.pdf", "your-api-secret");
+        ConvertApi.convertFile("source.docx", "result.pdf", "your-api-secret");
     }
 }
 ```
