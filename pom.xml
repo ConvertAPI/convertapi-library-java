@@ -4,7 +4,7 @@
     <artifactId>convertapi</artifactId>
     <packaging>jar</packaging>
 
-    <version>1.7</version>
+    <version>1.8-SNAPSHOT</version>
     <name>ConvertAPI Java Client</name>
     <description>
         The ConvertAPI helps converting various file formats.
@@ -29,7 +29,7 @@
         <connection>scm:git:git://github.com/ConvertAPI/convertapi-java.git</connection>
         <developerConnection>scm:git:git://github.com/ConvertAPI/convertapi-java.git</developerConnection>
         <url>https://github.com/ConvertAPI/convertapi-java</url>
-        <tag>convertapi-1.7</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
