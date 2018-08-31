@@ -12,7 +12,7 @@ You can get your free API secret at https://www.convertapi.com/a
 
 ## Installation
 
-Download **[latest JAR file](https://github.com/ConvertAPI/convertapi-java/releases/download/v1.3/convertapi-1.3.jar)** and place it in your project library directory.
+Download **[latest JAR file](https://github.com/ConvertAPI/convertapi-java/releases/download/v1.5/convertapi-1.5.jar)** and place it in your project library directory.
 
 ## Usage
 
@@ -21,7 +21,7 @@ Download **[latest JAR file](https://github.com/ConvertAPI/convertapi-java/relea
 You can get your secret at https://www.convertapi.com/a
 
 ```java
-Config.setDefaultSecret("YOUR API SECRET");
+Config.setDefaultSecret("your-api-secret");
 ```
 
 ### File conversion
@@ -93,17 +93,17 @@ import com.convertapi.ConvertApi;
 
 public class SimpleConversion {
     public static void main(String[] args) {
-        ConvertApi.convertFile("source.docx", "result.pdf", "YOUR API SECRET");
+        ConvertApi.convert("source.docx", "result.pdf", "your-api-secret");
     }
 }
 ```
 
 This is the bare-minimum to convert a file using the ConvertAPI client, but you can do a great deal more with the ConvertAPI Java library.
-Take special note that you should replace `YOUR API SECRET` with the secret you obtained in item two of the pre-requisites.
+Take special note that you should replace `your-api-secret` with the secret you obtained in item two of the pre-requisites.
 
 ### Issues &amp; Comments
 Please leave all comments, bugs, requests, and issues on the Issues page. We'll respond to your request ASAP!
 
 ### License
 The ConvertAPI Java Library is licensed under the [MIT](http://www.opensource.org/licenses/mit-license.php "Read more about the MIT license form") license.
-Refer to the [LICENSE](https://github.com/ConvertAPI/convertapi-java/blob/master/LICENSE) file for more information.
+Refer to the [LICENSE](https://raw.githubusercontent.com/ConvertAPI/convertapi-java/master/LICENSE.txt) file for more information.
