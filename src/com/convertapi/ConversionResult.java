@@ -3,6 +3,7 @@ package com.convertapi;
 import com.convertapi.model.ConversionResponse;
 import com.convertapi.model.ConversionResponseFile;
 
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -41,7 +42,11 @@ public class ConversionResult {
         return new ConversionResultFile(response.Files[index]);
     }
 
-    public CompletableFuture<Path> saveFile(Path file)  {
+    public CompletableFuture<InputStream> asStream() {
+        return getFile(0).asStream();
+    }
+
+    public CompletableFuture<Path> saveFile(Path file) {
         return getFile(0).saveFile(file);
     }
 
