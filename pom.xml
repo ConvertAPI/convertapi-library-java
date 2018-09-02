@@ -25,6 +25,20 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <id>jonas</id>
+            <name>Jonas Jasas</name>
+            <email>jonas@baltsoft.com</email>
+            <organization>Baltsoft</organization>
+            <organizationUrl>http://www.baltsoft.com/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+3</timezone>
+        </developer>
+    </developers>
+
     <scm>
         <connection>scm:git:git://github.com/ConvertAPI/convertapi-java.git</connection>
         <developerConnection>scm:git:git://github.com/ConvertAPI/convertapi-java.git</developerConnection>
