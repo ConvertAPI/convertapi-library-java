@@ -33,9 +33,14 @@
             <organization>Baltsoft</organization>
             <organizationUrl>http://www.baltsoft.com/</organizationUrl>
             <roles>
-                <role>Developer</role>
+                <role>architect</role>
+                <role>developer</role>
             </roles>
             <timezone>+3</timezone>
+
+            <properties>
+                <picUrl>https://avatars3.githubusercontent.com/u/16254748</picUrl>
+            </properties>
         </developer>
     </developers>
 
