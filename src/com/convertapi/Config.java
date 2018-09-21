@@ -6,11 +6,11 @@ import java.util.function.Function;
 
 public class Config {
     private static String defaultSecret;
+    private static int defaultTimeout = 180;
     private static Function<OkHttpClient.Builder, OkHttpClient.Builder> defaultHttpClientBuilder = b -> b;
     private static final String SCHEME = "https";
     @SuppressWarnings("SpellCheckingInspection")
     private static final String HOST = "v2.convertapi.com";
-    private static final int TIMEOUT = 180;
     private final String scheme;
     private final String host;
     private final String secret;
@@ -28,22 +28,27 @@ public class Config {
 
     @SuppressWarnings("WeakerAccess")
     public static Config defaults() {
-        return new Config(Config.defaultSecret, SCHEME, HOST, TIMEOUT, Config.defaultHttpClientBuilder);
+        return new Config(Config.defaultSecret, SCHEME, HOST, defaultTimeout, Config.defaultHttpClientBuilder);
     }
 
     @SuppressWarnings("WeakerAccess")
     public static Config defaults(String secret) {
-        return new Config(secret, SCHEME, HOST, TIMEOUT, Config.defaultHttpClientBuilder);
+        return new Config(secret, SCHEME, HOST, defaultTimeout, Config.defaultHttpClientBuilder);
     }
 
     @SuppressWarnings("WeakerAccess")
     public static Config defaults(String secret, Function<OkHttpClient.Builder, OkHttpClient.Builder> httpClientBuilder) {
-        return new Config(secret, SCHEME, HOST, TIMEOUT, httpClientBuilder);
+        return new Config(secret, SCHEME, HOST, defaultTimeout, httpClientBuilder);
     }
 
     @SuppressWarnings("unused")
     public static void setDefaultSecret(String defaultSecret) {
         Config.defaultSecret = defaultSecret;
+    }
+
+    @SuppressWarnings("unused")
+    public static void setDefaultTimeout(int defaultTimeout) {
+        Config.defaultTimeout = defaultTimeout;
     }
 
     @SuppressWarnings("unused")
