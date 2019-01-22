@@ -46,7 +46,7 @@
 
     <scm>
         <connection>scm:git:git://github.com/ConvertAPI/convertapi-java.git</connection>
-        <developerConnection>scm:git:git://github.com/ConvertAPI/convertapi-java.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:ConvertAPI/convertapi-java.git</developerConnection>
         <url>https://github.com/ConvertAPI/convertapi-java</url>
         <tag>HEAD</tag>
     </scm>
