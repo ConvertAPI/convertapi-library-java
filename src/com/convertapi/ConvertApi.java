@@ -32,12 +32,26 @@ public class ConvertApi {
     public static CompletableFuture<ConversionResult> convert(String fromFormat, String toFormat, Param[] params, Config config) {
         CompletableFuture<ConversionResponse> completableResponse = CompletableFuture.supplyAsync(() -> {
             @SuppressWarnings("SpellCheckingInspection")
-            HttpUrl url = Http.getUrlBuilder(config)
+            HttpUrl.Builder urlBuilder = Http.getUrlBuilder(config)
                     .addPathSegment("convert")
                     .addPathSegment(fromFormat)
                     .addPathSegment("to")
-                    .addPathSegment(toFormat)
-                    .addQueryParameter("storefile", "true")
+                    .addPathSegment(toFormat);
+
+            for (Param param : params) {
+                if (param.getName() == "converter") {
+                    try {
+                        urlBuilder = urlBuilder
+                                .addPathSegment("converter")
+                                .addPathSegment(param.getValue().get(0));
+                    } catch (InterruptedException | ExecutionException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+
+            HttpUrl url = urlBuilder.addQueryParameter("storefile", "true")
                     .build();
 
             MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
