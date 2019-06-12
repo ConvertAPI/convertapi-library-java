@@ -27,7 +27,6 @@ public class AlternativeConverter {
         Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
 
         System.out.println("Converting DOCX to PDF with OpenOffice converter");
-
         Param docxFileParam = new Param("file", Paths.get("test-files/test.docx"));
         Param converterParam = new Param("converter", "openofficetopdf");
 
