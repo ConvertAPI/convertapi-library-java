@@ -1,7 +1,9 @@
-import com.convertapi.Config;
-import com.convertapi.ConversionResult;
-import com.convertapi.ConvertApi;
-import com.convertapi.Param;
+package com.convertapi.client.examples;
+
+import com.convertapi.client.Config;
+import com.convertapi.client.ConversionResult;
+import com.convertapi.client.ConvertApi;
+import com.convertapi.client.Param;
 
 import java.io.IOException;
 import java.nio.file.Path;

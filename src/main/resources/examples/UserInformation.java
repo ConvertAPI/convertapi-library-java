@@ -1,7 +1,7 @@
-package com.convertapi.examples;
+package com.convertapi.client.examples;
 
-import com.convertapi.Config;
-import com.convertapi.ConvertApi;
+import com.convertapi.client.Config;
+import com.convertapi.client.ConvertApi;
 import com.convertapi.client.model.User;
 
 import java.io.IOException;

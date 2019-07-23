@@ -1,6 +1,6 @@
-package com.convertapi.examples;
+package com.convertapi.client.examples;
 
-import com.convertapi.ConvertApi;
+import com.convertapi.client.ConvertApi;
 
 import static java.lang.System.getenv;
 
