@@ -1,10 +1,11 @@
-package com.convertapi.client.examples;
+package com.convertapi.examples;
 
 import com.convertapi.client.Config;
 import com.convertapi.client.ConversionResult;
 import com.convertapi.client.ConvertApi;
 import com.convertapi.client.Param;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,7 +24,7 @@ public class ConversionChaining {
         Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));    //Get your secret at https://www.convertapi.com/a
 
         System.out.println("Converting PDF to JPG and compressing result files with ZIP");
-        CompletableFuture<ConversionResult> jpgResult = ConvertApi.convert("docx", "jpg", new Param("file", Paths.get("test-files/test.docx")));
+        CompletableFuture<ConversionResult> jpgResult = ConvertApi.convert("docx", "jpg", new Param("file", new File(AlternativeConverter.class.getClassLoader().getResource("test.docx").getFile()).toPath()));
         System.out.println("ConvertApi.convert is not blocking method, proceeding to ZIP conversion");
 
         CompletableFuture<ConversionResult> zipResult = ConvertApi.convert("jpg", "zip", new Param("files", jpgResult));

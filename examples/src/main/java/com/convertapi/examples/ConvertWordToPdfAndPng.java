@@ -1,10 +1,11 @@
-package com.convertapi.client.examples;
+package com.convertapi.examples;
 
 import com.convertapi.client.Config;
 import com.convertapi.client.ConversionResult;
 import com.convertapi.client.ConvertApi;
 import com.convertapi.client.Param;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,7 +29,7 @@ public class ConvertWordToPdfAndPng {
 
         System.out.println("Converting DOCX to PDF and JPG in parallel");
 
-        Param docxFileParam = new Param("file", Paths.get("test-files/test.docx"));
+        Param docxFileParam = new Param("file", new File(AlternativeConverter.class.getClassLoader().getResource("test.docx").getFile()).toPath());
 
         CompletableFuture<ConversionResult> pdfResult = ConvertApi.convert("docx", "pdf", docxFileParam);
         CompletableFuture<ConversionResult> jpgResult = ConvertApi.convert("docx", "jpg", docxFileParam);

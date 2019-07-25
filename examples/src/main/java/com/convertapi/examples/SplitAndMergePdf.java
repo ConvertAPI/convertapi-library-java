@@ -1,9 +1,10 @@
-package com.convertapi.client.examples;
+package com.convertapi.examples;
 
 import com.convertapi.client.Config;
 import com.convertapi.client.ConversionResult;
 import com.convertapi.client.ConvertApi;
 import com.convertapi.client.Param;
+import java.io.File;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -27,7 +28,7 @@ public class SplitAndMergePdf {
         System.out.println("Creating PDF with the first and the last pages");
 
         CompletableFuture<ConversionResult> splitResult = ConvertApi.convert("pdf", "split",
-                new Param("file", Paths.get("test-files/test.pdf"))
+                new Param("file", new File(AlternativeConverter.class.getClassLoader().getResource("test.pdf").getFile()).toPath())
         );
 
         CompletableFuture<ConversionResult> mergeResult = ConvertApi.convert("pdf", "merge",
