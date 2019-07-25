@@ -12,7 +12,20 @@ You can get your free API secret at https://www.convertapi.com/a
 
 ## Installation
 
-Download **[latest JAR file](https://github.com/ConvertAPI/convertapi-java/releases/download/v1.3/convertapi-1.3.jar)** and place it in your project library directory.
+### Maven
+
+Add the following dependency to your pom.xml:
+```xml
+<dependency>
+    <groupId>com.convertapi.client</groupId>
+    <artifactId>convertapi</artifactId>
+    <version>2.0</version>
+</dependency>
+```
+
+### Manual dependencies
+
+Download latest JAR file from **[releases page](https://github.com/ConvertAPI/convertapi-java/releases)** and place it in your project library directory.
 
 ## Usage
 
