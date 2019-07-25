@@ -19,13 +19,9 @@ Add the following dependency to your pom.xml:
 <dependency>
     <groupId>com.convertapi.client</groupId>
     <artifactId>convertapi</artifactId>
-    <version>2.0</version>
+    <version>2.1</version>
 </dependency>
 ```
-
-### Manual dependencies
-
-Download latest JAR file from **[releases page](https://github.com/ConvertAPI/convertapi-java/releases)** and place it in your project library directory.
 
 ## Usage
 
