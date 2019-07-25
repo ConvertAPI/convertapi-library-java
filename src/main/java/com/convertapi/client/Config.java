@@ -28,17 +28,17 @@ public class Config {
 
     @SuppressWarnings("WeakerAccess")
     public static Config defaults() {
-        return new Config(Config.defaultSecret, SCHEME, HOST, defaultTimeout, Config.defaultHttpClientBuilder);
+        return new Config(Config.defaultSecret, SCHEME, HOST, TIMEOUT, Config.defaultHttpClientBuilder);
     }
 
     @SuppressWarnings("WeakerAccess")
     public static Config defaults(String secret) {
-        return new Config(secret, SCHEME, HOST, defaultTimeout, Config.defaultHttpClientBuilder);
+        return new Config(secret, SCHEME, HOST, TIMEOUT, Config.defaultHttpClientBuilder);
     }
 
     @SuppressWarnings("WeakerAccess")
     public static Config defaults(String secret, Function<OkHttpClient.Builder, OkHttpClient.Builder> httpClientBuilder) {
-        return new Config(secret, SCHEME, HOST, defaultTimeout, httpClientBuilder);
+        return new Config(secret, SCHEME, HOST, TIMEOUT, httpClientBuilder);
     }
 
     @SuppressWarnings("unused")

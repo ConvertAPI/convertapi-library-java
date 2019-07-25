@@ -1,9 +1,9 @@
 package com.convertapi.examples;
 
-import com.convertapi.Config;
-import com.convertapi.ConversionResult;
-import com.convertapi.ConvertApi;
-import com.convertapi.Param;
+import com.convertapi.client.Config;
+import com.convertapi.client.ConversionResult;
+import com.convertapi.client.ConvertApi;
+import com.convertapi.client.Param;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -19,17 +19,17 @@ import static java.lang.System.getenv;
 /**
  * Example of HTTP client setup to use HTTP proxy server.
  */
-
 public class Advanced {
+
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
         Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));    //Get your secret at https://www.convertapi.com/a
 
         // Advanced HTTP client setup
         Config.setDefaultHttpBuilder(builder -> {
             return builder
-                    .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.0.0.1", 8888))) // Setting Proxy server
-                    .connectTimeout(3, TimeUnit.SECONDS);    // Setting connect timeout
-                    // More settings can be tuned here
+                .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.0.0.1", 8888))) // Setting Proxy server
+                .connectTimeout(3, TimeUnit.SECONDS);    // Setting connect timeout
+            // More settings can be tuned here
         });
 
         // Conversion

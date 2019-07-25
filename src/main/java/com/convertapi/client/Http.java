@@ -1,4 +1,4 @@
-package com.convertapi;
+package com.convertapi.client;
 
 import com.convertapi.model.RemoteUploadResponse;
 import com.google.gson.Gson;
@@ -58,7 +58,7 @@ class Http {
     }
 
     static Request.Builder getRequestBuilder() {
-        String agent = String.format("ConvertAPI-Java/%.1f (%s)", 1.6, System.getProperty("os.name"));
+        String agent = String.format("ConvertAPI-Java/%.1f (%s)", Http.class.getPackage().getImplementationVersion(), System.getProperty("os.name"));
         return new Request.Builder().header("User-Agent", agent);
     }
 

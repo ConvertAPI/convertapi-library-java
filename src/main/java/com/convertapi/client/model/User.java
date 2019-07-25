@@ -1,4 +1,4 @@
-package com.convertapi.model;
+package com.convertapi.client.model;
 
 @SuppressWarnings("unused")
 public class User {

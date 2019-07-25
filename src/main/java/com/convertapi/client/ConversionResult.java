@@ -1,7 +1,7 @@
-package com.convertapi;
+package com.convertapi.client;
 
-import com.convertapi.model.ConversionResponse;
-import com.convertapi.model.ConversionResponseFile;
+import com.convertapi.client.model.ConversionResponse;
+import com.convertapi.client.model.ConversionResponseFile;
 
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -28,7 +28,7 @@ public class ConversionResult {
 
     public List<String> urls() {
         @SuppressWarnings("unchecked") List<String> valueList = new ArrayList();
-        for (ConversionResponseFile file: response.Files) valueList.add(file.Url);
+        for (ConversionResponseFile file : response.Files) valueList.add(file.Url);
         return valueList;
     }
 
@@ -52,7 +52,8 @@ public class ConversionResult {
 
     @SuppressWarnings("WeakerAccess")
     public List<CompletableFuture<Path>> saveFiles(Path directory) {
-        if (!Files.isDirectory(directory)) throw new RuntimeException("Directory expected, but received: " + directory.toString());
+        if (!Files.isDirectory(directory))
+            throw new RuntimeException("Directory expected, but received: " + directory.toString());
         List<CompletableFuture<Path>> paths = new ArrayList<>();
         for (int i = 0; i < response.Files.length; i++) {
             paths.add(getFile(i).saveFile(directory));

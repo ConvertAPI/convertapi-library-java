@@ -1,6 +1,6 @@
-package com.convertapi;
+package com.convertapi.client;
 
-import com.convertapi.model.ConversionResponseFile;
+import com.convertapi.client.model.ConversionResponseFile;
 
 import java.io.IOException;
 import java.io.InputStream;
