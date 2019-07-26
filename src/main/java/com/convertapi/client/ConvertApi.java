@@ -1,8 +1,8 @@
 package com.convertapi.client;
 
 import com.convertapi.client.model.ConversionResponse;
-import com.convertapi.client.model.User;
 import com.convertapi.client.model.RemoteUploadResponse;
+import com.convertapi.client.model.User;
 import com.google.gson.Gson;
 import okhttp3.HttpUrl;
 import okhttp3.MultipartBody;
@@ -136,11 +136,11 @@ public class ConvertApi {
         convertFile(fromPathToFile, toPathToFile, Config.defaults().getSecret());
     }
 
-    public static void convert(String fromPathToFile, String toPathToFile, String secret) {
+    public static void convertFile(String fromPathToFile, String toPathToFile, String secret) {
         try {
             Path fromPath = Paths.get(fromPathToFile);
             Path toPath = Paths.get(toPathToFile);
-            convert(fromPath, getFileExtension(toPath), secret).get().saveFile(toPath).get();
+            convertFile(fromPath, getFileExtension(toPath), secret).get().saveFile(toPath).get();
         } catch (IOException | ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,6 @@
 package com.convertapi.client;
 
-import com.convertapi.model.RemoteUploadResponse;
+import com.convertapi.client.model.RemoteUploadResponse;
 import com.google.gson.Gson;
 import okhttp3.*;
 

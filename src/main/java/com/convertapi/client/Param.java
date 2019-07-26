@@ -1,4 +1,4 @@
-package com.convertapi;
+package com.convertapi.client;
 
 import okhttp3.MediaType;
 import okhttp3.Request;
