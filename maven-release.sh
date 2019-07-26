@@ -23,15 +23,15 @@ mvn clean
 echo "Preparing release..."
 if [ $# -eq 1 ]
 then
-	echo -en "\n\n" | mvn release:prepare -Dtag=$1
+	echo "\n\n" | mvn release:prepare -Dtag=$1
 elif [ $# -eq 2 ] 
 then
-	echo -en "\n" | mvn release:prepare -DdevelopmentVersion=$2 -Dtag=$1
+	echo "\n" | mvn release:prepare -DdevelopmentVersion=$2 -Dtag=$1
 elif [ $# -eq 3 ] 
 then
 	mvn release:prepare -DreleaseVersion=$3 -DdevelopmentVersion=$2 -Dtag=$1
 else
-	echo -en "\n\n\n" | mvn release:prepare
+	echo "\n\n\n" | mvn release:prepare
 fi
 
 echo "Performing release..."
