@@ -2,7 +2,7 @@
 
 # Usage: ./maven-release.sh v2.0 2.1-SNAPSHOT 2.0
 
-branch_to_release="develop"
+branch_to_release="master"
 
 echo "Switching to the release branch..."
 git fetch

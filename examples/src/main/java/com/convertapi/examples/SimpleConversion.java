@@ -17,6 +17,6 @@ public class SimpleConversion {
         String tmpDir = System.getProperty("java.io.tmpdir") + "/";
 
         // Simplified file to file conversion example
-        ConvertApi.convert(resourcePath, tmpDir + "/result.pdf");
+        ConvertApi.convertFile(resourcePath, tmpDir + "/result.pdf");
     }
 }
