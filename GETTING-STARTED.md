@@ -3,6 +3,15 @@
 Go to [ConvertAPI Java client](https://github.com/ConvertAPI/convertapi-java) page and download JAR file.
 Place JAR in to your project library directory.
 
+Library is also available in  Maven.
+Add the following dependency to your pom.xml:
+```xml
+<dependency>
+    <groupId>com.convertapi.client</groupId>
+    <artifactId>convertapi</artifactId>
+    <version>2.2</version>
+</dependency>
+
 
 #### 2.a. Simple conversion methods
 
