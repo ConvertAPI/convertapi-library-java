@@ -11,7 +11,7 @@ Add the following dependency to your pom.xml:
     <artifactId>convertapi</artifactId>
     <version>2.2</version>
 </dependency>
-
+```
 
 #### 2.a. Simple conversion methods
 
