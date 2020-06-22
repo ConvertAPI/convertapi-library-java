@@ -28,7 +28,7 @@ public class AlternativeConverter {
 
         System.out.println("Converting DOCX to PDF with OpenOffice converter");
         Param docxFileParam = new Param("file", new File(AlternativeConverter.class.getClassLoader().getResource("test.docx").getFile()).toPath());
-        Param converterParam = new Param("converter", "openofficetopdf");
+        Param converterParam = new Param("converter", "openoffice");
 
         CompletableFuture<ConversionResult> pdfResult = ConvertApi.convert("docx", "pdf", docxFileParam, converterParam);
 
