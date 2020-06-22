@@ -1,9 +1,9 @@
 #### 1. Install the ConvertAPI library
 
-Go to [ConvertAPI Java client](https://github.com/ConvertAPI/convertapi-java) page and download JAR file.
-Place JAR in to your project library directory.
+Go to the [ConvertAPI Java client](https://github.com/ConvertAPI/convertapi-java) page and download the JAR file. 
+Place JAR into your project library directory.
 
-Library is also available in  Maven.
+The library is also available in Maven. 
 Add the following dependency to your pom.xml:
 ```xml
 <dependency>
@@ -31,7 +31,7 @@ ConvertApi.convertRemoteFile("https://cdn.convertapi.com/cara/testfiles/document
 ```
 
 
-#### 2.b. Convert local file
+#### 2.b. Convert a local file
 
 ```java
 import com.convertapi.*;
@@ -46,7 +46,7 @@ ConvertApi.convert("docx", "pdf",
 ```
 
 
-#### 2.c. Convert remote file and set additional parameters
+#### 2.c. Convert a remote file and set additional parameters
 
 ```java
 import com.convertapi.*;
