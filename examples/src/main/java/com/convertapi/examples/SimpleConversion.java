@@ -3,20 +3,21 @@ package com.convertapi.examples;
 import com.convertapi.client.Config;
 import com.convertapi.client.ConvertApi;
 
-import java.io.File;
-import java.io.IOException;
 import static java.lang.System.getenv;
 
 /**
  * Most simple conversion example
  */
 public class SimpleConversion {
-    public static void main(String[] args) throws IOException {
-        Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));
-        String resourcePath = new File(AlternativeConverter.class.getClassLoader().getResource("test.docx").getFile()).getCanonicalPath();
+
+    public static void main(String[] args) {
+        Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));   //Get your secret at https://www.convertapi.com/a
+        String resourcePath = "files/test.docx";
         String tmpDir = System.getProperty("java.io.tmpdir") + "/";
 
         // Simplified file to file conversion example
         ConvertApi.convertFile(resourcePath, tmpDir + "/result.pdf");
+
+        System.out.println("PDF file saved to: " + tmpDir + "result.pdf");
     }
 }
