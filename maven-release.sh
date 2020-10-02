@@ -7,9 +7,11 @@ echo "Set private key..."
 cp -vr /gpg ~/.gnupg
 echo "pinentry-mode loopback" > ~/.gnupg/gpg.conf
 cp -vpr /maven ~/.m2
+cp -vr /ssh ~/.ssh
 
 echo "Cloning convertapi-java..."
-git clone https://${GIT_USERNAME}:${GIT_SECRET}@github.com/ConvertAPI/convertapi-java.git
+ssh-keyscan github.com >> ~/.ssh/known_hosts
+git clone git@github.com:ConvertAPI/convertapi-java.git
 cd convertapi-java
 
 echo "Switching to the release branch..."
