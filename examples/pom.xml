@@ -22,7 +22,7 @@
     <build>     
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>files</directory>
                 <includes>
                     <include>test.docx</include>
                     <include>test.pdf</include>

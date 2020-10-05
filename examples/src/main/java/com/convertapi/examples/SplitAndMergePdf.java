@@ -4,7 +4,6 @@ import com.convertapi.client.Config;
 import com.convertapi.client.ConversionResult;
 import com.convertapi.client.ConvertApi;
 import com.convertapi.client.Param;
-import java.io.File;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -19,8 +18,8 @@ import static java.lang.System.getenv;
  * https://www.convertapi.com/pdf-to-extract
  * https://www.convertapi.com/pdf-to-merge
  */
-
 public class SplitAndMergePdf {
+
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
         Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));    //Get your secret at https://www.convertapi.com/a
         Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
@@ -28,12 +27,12 @@ public class SplitAndMergePdf {
         System.out.println("Creating PDF with the first and the last pages");
 
         CompletableFuture<ConversionResult> splitResult = ConvertApi.convert("pdf", "split",
-                new Param("file", new File(AlternativeConverter.class.getClassLoader().getResource("test.pdf").getFile()).toPath())
+            new Param("file", Paths.get("files/test.pdf"))
         );
 
         CompletableFuture<ConversionResult> mergeResult = ConvertApi.convert("pdf", "merge",
-                new Param("files", splitResult, 0),
-                new Param("files", splitResult, -1)
+            new Param("files", splitResult, 0),
+            new Param("files", splitResult, -1)
         );
 
         System.out.println("PDF file saved to: " + mergeResult.get().saveFile(tempDir).get());
