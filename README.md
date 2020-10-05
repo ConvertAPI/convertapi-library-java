@@ -91,7 +91,7 @@ int secondsLeft = user.SecondsLeft;
 
 ### More examples
 
-You can find more advanced examples in the [examples](https://github.com/ConvertAPI/convertapi-java/tree/master/src/main/java/com/convertapi/examples) folder.
+You can find more advanced examples in the [examples](https://github.com/ConvertAPI/convertapi-java/tree/master/examples/src/main/java/com/convertapi/examples) folder.
 
 #### Converting your first file, full example:
 
