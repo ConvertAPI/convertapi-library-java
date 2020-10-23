@@ -17,9 +17,10 @@ class Http {
     }
 
     static OkHttpClient getClient(Config config) {
+        int timeout = config.getTimeout() > 0 ? config.getTimeout() + 5 : 0;
         return config.getHttpClientBuilder()
                 .apply(getClient().newBuilder())
-                .readTimeout(config.getTimeout() + 5, TimeUnit.SECONDS)
+                .readTimeout(timeout, TimeUnit.SECONDS)
                 .build();
     }
 

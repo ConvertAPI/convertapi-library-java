@@ -14,16 +14,17 @@ import java.util.concurrent.ExecutionException;
 import static java.lang.System.getenv;
 
 /**
- * Example of conversion remote file. Converting file must be accessible from the internet.
+ * Example of conversion remote file. Converting file must be accessible from
+ * the internet.
  */
-
 public class ConvertRemoteFile {
-    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));    //Get your secret at https://www.convertapi.com/a
 
         System.out.println("Converting remote PPTX to PDF");
         CompletableFuture<ConversionResult> result = ConvertApi.convert("pptx", "pdf",
-                new Param("file", "https://cdn.convertapi.com/cara/testfiles/presentation.pptx")
+            new Param("file", "https://cdn.convertapi.com/cara/testfiles/presentation.pptx")
         );
 
         Path pdfFile = Paths.get(System.getProperty("java.io.tmpdir") + "/myfile.pdf");

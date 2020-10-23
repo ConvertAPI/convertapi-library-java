@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutionException;
 @SuppressWarnings("WeakerAccess")
 public class ConvertApi {
     @SuppressWarnings("SpellCheckingInspection")
-    private static final List<String> IGNORE_PARAMS = Arrays.asList("storefile", "async", "jobid", "timeout");
+    private static final List<String> IGNORE_PARAMS = Arrays.asList("storefile", "async", "jobid");
 
     @SuppressWarnings("unused")
     public static CompletableFuture<ConversionResult> convert(String fromFormat, String toFormat, Param... params) {

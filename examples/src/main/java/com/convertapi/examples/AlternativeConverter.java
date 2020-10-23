@@ -5,7 +5,6 @@ import com.convertapi.client.ConversionResult;
 import com.convertapi.client.ConvertApi;
 import com.convertapi.client.Param;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,12 +21,13 @@ import static java.lang.System.getenv;
  */
 
 public class AlternativeConverter {
+
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
         Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));    //Get your secret at https://www.convertapi.com/a
         Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
 
         System.out.println("Converting DOCX to PDF with OpenOffice converter");
-        Param docxFileParam = new Param("file", new File(AlternativeConverter.class.getClassLoader().getResource("test.docx").getFile()).toPath());
+        Param docxFileParam = new Param("file", Paths.get("files/test.docx"));
         Param converterParam = new Param("converter", "openoffice");
 
         CompletableFuture<ConversionResult> pdfResult = ConvertApi.convert("docx", "pdf", docxFileParam, converterParam);

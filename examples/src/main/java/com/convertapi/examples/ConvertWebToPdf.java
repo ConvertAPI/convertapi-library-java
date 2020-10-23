@@ -16,16 +16,16 @@ import static java.lang.System.getenv;
 /**
  * Example of converting Web Page URL to PDF file
  * https://www.convertapi.com/web-to-pdf
-*/
-
+ */
 public class ConvertWebToPdf {
-    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));    //Get your secret at https://www.convertapi.com/a
 
         System.out.println("Converting WEB to PDF");
         CompletableFuture<ConversionResult> result = ConvertApi.convert("web", "pdf",
-                new Param("url", "https://en.wikipedia.org/wiki/Data_conversion"),
-                new Param("filename", "web-example")
+            new Param("url", "https://en.wikipedia.org/wiki/Data_conversion"),
+            new Param("filename", "web-example")
         );
 
         Path tmpDir = Paths.get(System.getProperty("java.io.tmpdir"));
