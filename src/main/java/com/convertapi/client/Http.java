@@ -28,7 +28,6 @@ class Http {
         return new HttpUrl.Builder()
                 .scheme(config.getScheme())
                 .host(config.getHost())
-                .addQueryParameter("timeout", String.valueOf(config.getTimeout()))
                 .addQueryParameter("secret", config.getSecret());
     }
 
