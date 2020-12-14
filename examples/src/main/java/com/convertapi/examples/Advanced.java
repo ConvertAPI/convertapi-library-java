@@ -26,7 +26,7 @@ public class Advanced {
         // Advanced HTTP client setup
         Config.setDefaultHttpBuilder(builder -> {
             return builder
-                .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.0.0.1", 8888))) // Setting Proxy server
+            //  .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.0.0.1", 8888))) // Setting Proxy server
                 .connectTimeout(3, TimeUnit.SECONDS);    // Setting connect timeout
             // More settings can be tuned here
         });
