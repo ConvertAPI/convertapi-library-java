@@ -10,6 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 class Http {
+
     private static final OkHttpClient client = new OkHttpClient();
 
     static OkHttpClient getClient() {
@@ -58,7 +59,7 @@ class Http {
     }
 
     static Request.Builder getRequestBuilder() {
-        String agent = String.format("ConvertAPI-Java/%.1f (%s)", Http.class.getPackage().getImplementationVersion(), System.getProperty("os.name"));
+        String agent = String.format("ConvertAPI-Java/%s (%s)", Http.class.getPackage().getImplementationVersion(), System.getProperty("os.name"));
         return new Request.Builder().header("User-Agent", agent);
     }
 

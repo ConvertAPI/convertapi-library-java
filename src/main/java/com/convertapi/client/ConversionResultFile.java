@@ -11,6 +11,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.concurrent.CompletableFuture;
 
 public class ConversionResultFile {
+
     private final ConversionResponseFile conversionResponseFile;
 
     public ConversionResultFile(ConversionResponseFile conversionResponseFile) {

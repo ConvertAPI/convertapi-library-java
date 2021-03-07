@@ -21,6 +21,7 @@ import java.util.concurrent.ExecutionException;
 
 @SuppressWarnings("WeakerAccess")
 public class ConvertApi {
+
     @SuppressWarnings("SpellCheckingInspection")
     private static final List<String> IGNORE_PARAMS = Arrays.asList("storefile", "async", "jobid");
 
@@ -39,7 +40,7 @@ public class ConvertApi {
                     .addPathSegment(toFormat);
 
             for (Param param : params) {
-                if (param.getName() == "converter") {
+                if (param.getName().equals("converter")) {
                     try {
                         urlBuilder = urlBuilder
                                 .addPathSegment("converter")
@@ -183,7 +184,7 @@ public class ConvertApi {
         try {
             Path toPath = Paths.get(toPathToFile);
             return convert(response.FileExt, getFileExtension(toPath), new Param[]{
-                    new Param("file", response.FileId)
+                new Param("file", response.FileId)
             }, Config.defaults(secret)).get().saveFile(toPath).get();
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);

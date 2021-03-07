@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient;
 import java.util.function.Function;
 
 public class Config {
+
     private static String defaultSecret;
     private static int defaultTimeout = 0;  // Infinite read waiting
     private static Function<OkHttpClient.Builder, OkHttpClient.Builder> defaultHttpClientBuilder = b -> b;
