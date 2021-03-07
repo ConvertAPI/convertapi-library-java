@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings("WeakerAccess")
 public class ConversionResult {
+
     private final ConversionResponse response;
 
     @SuppressWarnings("unused")
@@ -27,8 +28,11 @@ public class ConversionResult {
     }
 
     public List<String> urls() {
-        @SuppressWarnings("unchecked") List<String> valueList = new ArrayList();
-        for (ConversionResponseFile file : response.Files) valueList.add(file.Url);
+        @SuppressWarnings("unchecked")
+        List<String> valueList = new ArrayList();
+        for (ConversionResponseFile file : response.Files) {
+            valueList.add(file.Url);
+        }
         return valueList;
     }
 
@@ -38,7 +42,9 @@ public class ConversionResult {
     }
 
     public ConversionResultFile getFile(int index) {
-        if (index < 0) index = response.Files.length + index;
+        if (index < 0) {
+            index = response.Files.length + index;
+        }
         return new ConversionResultFile(response.Files[index]);
     }
 
@@ -52,8 +58,9 @@ public class ConversionResult {
 
     @SuppressWarnings("WeakerAccess")
     public List<CompletableFuture<Path>> saveFiles(Path directory) {
-        if (!Files.isDirectory(directory))
+        if (!Files.isDirectory(directory)) {
             throw new RuntimeException("Directory expected, but received: " + directory.toString());
+        }
         List<CompletableFuture<Path>> paths = new ArrayList<>();
         for (int i = 0; i < response.Files.length; i++) {
             paths.add(getFile(i).saveFile(directory));
