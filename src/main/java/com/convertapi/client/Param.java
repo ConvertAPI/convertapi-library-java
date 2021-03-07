@@ -18,6 +18,7 @@ import static java.nio.file.StandardOpenOption.READ;
 
 @SuppressWarnings("WeakerAccess")
 public class Param {
+
     private final String name;
     private CompletableFuture<List<String>> value;
     private boolean isUploadedFile = false;
