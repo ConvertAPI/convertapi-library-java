@@ -40,7 +40,7 @@ public class ConvertApi {
                     .addPathSegment(toFormat);
 
             for (Param param : params) {
-                if (param.getName().equals("converter")) {
+                if (param.getName().toLowerCase().equals("converter")) {
                     try {
                         urlBuilder = urlBuilder
                                 .addPathSegment("converter")
@@ -48,7 +48,6 @@ public class ConvertApi {
                     } catch (InterruptedException | ExecutionException e) {
                         throw new RuntimeException(e);
                     }
-
                 }
             }
 
