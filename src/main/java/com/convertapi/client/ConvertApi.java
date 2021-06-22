@@ -40,7 +40,7 @@ public class ConvertApi {
                     .addPathSegment(toFormat);
 
             for (Param param : params) {
-                if (param.getName().toLowerCase().equals("converter")) {
+                if (param.getName().equalsIgnoreCase("converter")) {
                     try {
                         urlBuilder = urlBuilder
                                 .addPathSegment("converter")
@@ -77,8 +77,7 @@ public class ConvertApi {
                     .build();
 
             String bodyString;
-            try {
-                Response response = Http.getClient(config).newCall(request).execute();
+            try (Response response = Http.getClient(config).newCall(request).execute()) {
                 //noinspection ConstantConditions
                 bodyString = response.body().string();
                 if (response.code() != 200) {
@@ -107,8 +106,7 @@ public class ConvertApi {
                 .build();
 
         String bodyString;
-        try {
-            Response response = Http.getClient().newCall(request).execute();
+        try (Response response = Http.getClient().newCall(request).execute()) {
             //noinspection ConstantConditions
             bodyString = response.body().string();
             if (response.code() != 200) {

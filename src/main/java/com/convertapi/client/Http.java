@@ -49,8 +49,7 @@ class Http {
     static CompletableFuture<Void> requestDelete(String url) {
         return CompletableFuture.supplyAsync(() -> {
             Request request = getRequestBuilder().delete().url(url).build();
-            try {
-                getClient().newCall(request).execute();
+            try (Response response = getClient().newCall(request).execute()) {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -76,8 +75,7 @@ class Http {
                 .build();
 
         String bodyString;
-        try {
-            Response response = Http.getClient().newCall(request).execute();
+        try (Response response = Http.getClient().newCall(request).execute()) {
             //noinspection ConstantConditions
             bodyString = response.body().string();
             if (response.code() != 200) {
