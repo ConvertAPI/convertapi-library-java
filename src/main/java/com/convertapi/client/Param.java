@@ -103,21 +103,20 @@ public class Param {
 
     public CompletableFuture<Void> delete() {
         return isUploadedFile
-                ? value.thenCompose(urls -> Http.requestDelete(urls.get(0)))
-                : CompletableFuture.completedFuture(null);
+            ? value.thenCompose(urls -> Http.requestDelete(urls.get(0)))
+            : CompletableFuture.completedFuture(null);
     }
 
     private static CompletableFuture<List<String>> upload(InputStream stream, String fileName, Config config) {
         return CompletableFuture.supplyAsync(() -> {
             Request request = Http.getRequestBuilder()
-                    .url(Http.getUrlBuilder(config).addPathSegment("upload")
-                            .addQueryParameter("filename", fileName)
-                            .build())
-                    .post(RequestBodyStream.create(MediaType.parse("application/octet-stream"), stream))
-                    .build();
+                .url(Http.getUrlBuilder(config).addPathSegment("upload")
+                    .addQueryParameter("filename", fileName)
+                    .build())
+                .post(RequestBodyStream.create(MediaType.parse("application/octet-stream"), stream))
+                .build();
             try {
                 String id = Http.getClient().newCall(request).execute().body().string();
-                //noinspection ConstantConditions
                 return Collections.singletonList(id);
             } catch (IOException e) {
                 throw new RuntimeException(e);
