@@ -20,16 +20,23 @@ class Http {
     static OkHttpClient getClient(Config config) {
         int timeout = config.getTimeout() > 0 ? config.getTimeout() + 5 : 0;
         return config.getHttpClientBuilder()
-                .apply(getClient().newBuilder())
-                .readTimeout(timeout, TimeUnit.SECONDS)
-                .build();
+            .apply(getClient().newBuilder())
+            .readTimeout(timeout, TimeUnit.SECONDS)
+            .build();
     }
 
     static HttpUrl.Builder getUrlBuilder(Config config) {
-        return new HttpUrl.Builder()
-                .scheme(config.getScheme())
-                .host(config.getHost())
-                .addQueryParameter("secret", config.getSecret());
+        HttpUrl.Builder urlBuilder = new HttpUrl.Builder()
+            .scheme(config.getScheme())
+            .host(config.getHost());
+
+        if (config.getSecret() != null) {
+            return urlBuilder.addQueryParameter("secret", config.getSecret());
+        } else {
+            return urlBuilder
+                .addQueryParameter("token", config.getToken())
+                .addQueryParameter("apikey", config.getApiKey());
+        }
     }
 
     static CompletableFuture<InputStream> requestGet(String url) {
@@ -65,19 +72,18 @@ class Http {
 
     static RemoteUploadResponse remoteUpload(String urlToFile, Config config) {
         HttpUrl url = Http.getUrlBuilder(config)
-                .addPathSegment("upload-from-url")
-                .addQueryParameter("url", urlToFile)
-                .build();
+            .addPathSegment("upload-from-url")
+            .addQueryParameter("url", urlToFile)
+            .build();
 
         Request request = Http.getRequestBuilder()
-                .url(url)
-                .method("POST", RequestBody.create(null, ""))
-                .addHeader("Accept", "application/json")
-                .build();
+            .url(url)
+            .method("POST", RequestBody.create(null, ""))
+            .addHeader("Accept", "application/json")
+            .build();
 
         String bodyString;
-        try {
-            Response response = Http.getClient().newCall(request).execute();
+        try (Response response = Http.getClient().newCall(request).execute()) {
             //noinspection ConstantConditions
             bodyString = response.body().string();
             if (response.code() != 200) {
