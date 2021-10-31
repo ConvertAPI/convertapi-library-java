@@ -8,7 +8,7 @@ import static java.lang.System.getenv;
 /**
  * Most simple conversion example with token authentication
  */
-public class SimpleConversion {
+public class TokenAuthentication {
 
     public static void main(String[] args) {
         Config.setDefaultToken(getenv("CONVERTAPI_TOKEN"));   // Generate your token: https://www.convertapi.com/doc/auth
