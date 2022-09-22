@@ -36,7 +36,7 @@ Config.setDefaultSecret("your-api-secret");
 ### File conversion
 
 Example to convert DOCX file to PDF. All supported formats and options can be found
-[here](https://www.convertapi.com).
+[here](https://www.convertapi.com/conversions).
 
 ```java
 CompletableFuture<ConversionResult> result = ConvertApi.convert("docx", "pdf", new Param("file", Paths.get("test.docx")));
