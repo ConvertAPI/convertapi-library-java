@@ -2,6 +2,8 @@ package com.convertapi.client;
 
 import okhttp3.MediaType;
 import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -101,27 +103,37 @@ public class Param {
         return this.value.get();
     }
 
-    public CompletableFuture<Void> delete() {
-        return isUploadedFile
-            ? value.thenCompose(urls -> Http.requestDelete(urls.get(0)))
-            : CompletableFuture.completedFuture(null);
-    }
-
     private static CompletableFuture<List<String>> upload(InputStream stream, String fileName, Config config) {
         return CompletableFuture.supplyAsync(() -> {
             Request request = Http.getRequestBuilder()
-                .url(Http.getUrlBuilder(config).addPathSegment("upload")
-                    .addQueryParameter("filename", fileName)
-                    .build())
-                .post(RequestBodyStream.create(MediaType.parse("application/octet-stream"), stream))
-                .build();
-            try {
-                String id = Http.getClient().newCall(request).execute().body().string();
-                return Collections.singletonList(id);
+                    .url(Http.getUrlBuilder(config).addPathSegment("upload")
+                            .addQueryParameter("filename", fileName)
+                            .build())
+                    .post(RequestBodyStream.create(MediaType.parse("application/octet-stream"), stream))
+                    .build();
+
+            try (Response response = Http.getClient().newCall(request).execute()) {
+                ResponseBody body = response.body();
+                if (body != null) {
+                    if (response.code() != 200) {
+                        throw new ConversionException(body.string(), response.code());
+                    }
+                    String id = body.string();
+                    return Collections.singletonList(id);
+                } else {
+                    throw new ConversionException("Response body is empty", response.code());
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    @SuppressWarnings("unused")
+    public CompletableFuture<Void> delete() {
+        return isUploadedFile
+                ? value.thenCompose(urls -> Http.requestDelete(urls.get(0)))
+                : CompletableFuture.completedFuture(null);
     }
 
     public static Param[] concat(Param[] a, Param[] b) {
