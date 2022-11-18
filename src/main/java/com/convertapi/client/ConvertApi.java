@@ -52,7 +52,7 @@ public class ConvertApi {
 
             HttpUrl url = urlBuilder.addQueryParameter("storefile", "true").build();
 
-            MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
+            MultipartBody.Builder multipartBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
             HashMap<String, List<String>> paramValues = getParamValues(params);
 
             for (String name : paramValues.keySet()) {
