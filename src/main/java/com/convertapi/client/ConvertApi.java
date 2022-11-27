@@ -52,7 +52,7 @@ public class ConvertApi {
 
             HttpUrl url = urlBuilder.addQueryParameter("storefile", "true").build();
 
-            MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
+            MultipartBody.Builder multipartBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
             HashMap<String, List<String>> paramValues = getParamValues(params);
 
             for (String name : paramValues.keySet()) {
@@ -219,21 +219,20 @@ public class ConvertApi {
 
     @SuppressWarnings("unused")
     public static Path convertRemoteFile(String url, String toPathToFile, String secret, Param... params) {
-        return convertRemoteFile(url, toPathToFile, Config.defaults(secret));
+        return convertRemoteFile(url, toPathToFile, Config.defaults(secret), params);
     }
 
     @SuppressWarnings("unused")
     public static Path convertRemoteFile(String url, String toPathToFile, String token, String apiKey, Param... params) {
-        return convertRemoteFile(url, toPathToFile, Config.defaults(token, apiKey));
+        return convertRemoteFile(url, toPathToFile, Config.defaults(token, apiKey), params);
     }
 
     public static Path convertRemoteFile(String url, String toPathToFile, Config config, Param... params) {
         RemoteUploadResponse response = Http.remoteUpload(url, config);
         try {
             Path toPath = Paths.get(toPathToFile);
-            return convert(response.FileExt, getFileExtension(toPath), new Param[]{
-                new Param("file", response.FileId)
-            }, config).get().saveFile(toPath).get();
+            Param[] fileParam = new Param[]{new Param("file", response.FileId)};
+            return convert(response.FileExt, getFileExtension(toPath), Param.concat(fileParam, params), config).get().saveFile(toPath).get();
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
