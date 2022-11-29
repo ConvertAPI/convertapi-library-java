@@ -19,7 +19,7 @@ Add the following dependency to your pom.xml:
 <dependency>
     <groupId>com.convertapi.client</groupId>
     <artifactId>convertapi</artifactId>
-    <version>2.8</version>
+    <version>2.9</version>
 </dependency>
 ```
 
