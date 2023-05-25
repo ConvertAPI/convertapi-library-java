@@ -69,7 +69,7 @@ CompletableFuture<ConversionResult> result = ConvertApi.convert("pptx", "pdf",
 #### Additional conversion parameters
 
 ConvertAPI accepts extra conversion parameters depending on converted formats. All conversion 
-parameters and explanations can be found [here](https://www.convertapi.com).
+parameters and explanations can be found [here](https://www.convertapi.com/conversions).
 
 ```java
 CompletableFuture<ConversionResult> result = ConvertApi.convert("pdf", "jpg",
