@@ -89,6 +89,14 @@ User user = ConvertApi.getUser();
 int secondsLeft = user.SecondsLeft;
 ```
 
+### Alternative domain
+
+Create `Config` instance with the alternative domain and provide it in `convert` method. Dedicated to the region [domain list](https://www.convertapi.com/doc/servers-location).
+
+```java
+Config config = new Config(secret, "https", "eu-v2.convertapi.com", 0, httpClientBuilder);
+```
+
 ### More examples
 
 You can find more advanced examples in the [examples](https://github.com/ConvertAPI/convertapi-java/tree/master/examples/src/main/java/com/convertapi/examples) folder.
