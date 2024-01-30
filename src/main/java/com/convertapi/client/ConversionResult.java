@@ -28,8 +28,7 @@ public class ConversionResult {
     }
 
     public List<String> urls() {
-        @SuppressWarnings("unchecked")
-        List<String> valueList = new ArrayList();
+        List<String> valueList = new ArrayList<>();
         for (ConversionResponseFile file : response.Files) {
             valueList.add(file.Url);
         }
@@ -59,7 +58,7 @@ public class ConversionResult {
     @SuppressWarnings("WeakerAccess")
     public List<CompletableFuture<Path>> saveFiles(Path directory) {
         if (!Files.isDirectory(directory)) {
-            throw new RuntimeException("Directory expected, but received: " + directory.toString());
+            throw new RuntimeException("Directory expected, but received: " + directory);
         }
         List<CompletableFuture<Path>> paths = new ArrayList<>();
         for (int i = 0; i < response.Files.length; i++) {

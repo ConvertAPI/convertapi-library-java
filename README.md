@@ -19,7 +19,7 @@ Add the following dependency to your pom.xml:
 <dependency>
     <groupId>com.convertapi.client</groupId>
     <artifactId>convertapi</artifactId>
-    <version>2.5</version>
+    <version>2.9</version>
 </dependency>
 ```
 
@@ -36,7 +36,7 @@ Config.setDefaultSecret("your-api-secret");
 ### File conversion
 
 Example to convert DOCX file to PDF. All supported formats and options can be found
-[here](https://www.convertapi.com).
+[here](https://www.convertapi.com/conversions).
 
 ```java
 CompletableFuture<ConversionResult> result = ConvertApi.convert("docx", "pdf", new Param("file", Paths.get("test.docx")));
@@ -69,7 +69,7 @@ CompletableFuture<ConversionResult> result = ConvertApi.convert("pptx", "pdf",
 #### Additional conversion parameters
 
 ConvertAPI accepts extra conversion parameters depending on converted formats. All conversion 
-parameters and explanations can be found [here](https://www.convertapi.com).
+parameters and explanations can be found [here](https://www.convertapi.com/conversions).
 
 ```java
 CompletableFuture<ConversionResult> result = ConvertApi.convert("pdf", "jpg",
@@ -87,6 +87,14 @@ You can always check remaining seconds amount by fetching [user information](htt
 ```java
 User user = ConvertApi.getUser();
 int secondsLeft = user.SecondsLeft;
+```
+
+### Alternative domain
+
+Create `Config` instance with the alternative domain and provide it in `convert` method. Dedicated to the region [domain list](https://www.convertapi.com/doc/servers-location).
+
+```java
+Config config = new Config(secret, "https", "eu-v2.convertapi.com", 0, httpClientBuilder);
 ```
 
 ### More examples

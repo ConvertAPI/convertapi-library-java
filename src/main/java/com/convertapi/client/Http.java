@@ -20,29 +20,42 @@ class Http {
     static OkHttpClient getClient(Config config) {
         int timeout = config.getTimeout() > 0 ? config.getTimeout() + 5 : 0;
         return config.getHttpClientBuilder()
-                .apply(getClient().newBuilder())
-                .readTimeout(timeout, TimeUnit.SECONDS)
-                .build();
+            .apply(getClient().newBuilder())
+            .readTimeout(timeout, TimeUnit.SECONDS)
+            .build();
     }
 
     static HttpUrl.Builder getUrlBuilder(Config config) {
-        return new HttpUrl.Builder()
-                .scheme(config.getScheme())
-                .host(config.getHost())
-                .addQueryParameter("secret", config.getSecret());
+        HttpUrl.Builder urlBuilder = new HttpUrl.Builder()
+            .scheme(config.getScheme())
+            .host(config.getHost());
+
+        if (config.getSecret() != null) {
+            return urlBuilder.addQueryParameter("secret", config.getSecret());
+        } else {
+            return urlBuilder
+                .addQueryParameter("token", config.getToken())
+                .addQueryParameter("apikey", config.getApiKey());
+        }
     }
 
     static CompletableFuture<InputStream> requestGet(String url) {
         return CompletableFuture.supplyAsync(() -> {
             Request request = getRequestBuilder().url(url).build();
-            Response response;
             try {
-                response = getClient().newCall(request).execute();
+                Response response = getClient().newCall(request).execute();
+                ResponseBody body = response.body();
+                if (body != null) {
+                    if (response.code() != 200) {
+                        throw new ConversionException(body.string(), response.code());
+                    }
+                    return body.byteStream();
+                } else {
+                    throw new ConversionException("Response body is empty", response.code());
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            //noinspection ConstantConditions
-            return response.body().byteStream();
         });
     }
 
@@ -53,7 +66,6 @@ class Http {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            return null;
         });
     }
 
@@ -64,15 +76,15 @@ class Http {
 
     static RemoteUploadResponse remoteUpload(String urlToFile, Config config) {
         HttpUrl url = Http.getUrlBuilder(config)
-                .addPathSegment("upload-from-url")
-                .addQueryParameter("url", urlToFile)
-                .build();
+            .addPathSegment("upload-from-url")
+            .addQueryParameter("url", urlToFile)
+            .build();
 
         Request request = Http.getRequestBuilder()
                 .url(url)
-                .method("POST", RequestBody.create(null, ""))
-                .addHeader("Accept", "application/json")
-                .build();
+                .method("POST", RequestBody.create("", null))
+            .addHeader("Accept", "application/json")
+            .build();
 
         String bodyString;
         try (Response response = Http.getClient().newCall(request).execute()) {
