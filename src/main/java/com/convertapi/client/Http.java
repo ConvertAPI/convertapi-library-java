@@ -62,9 +62,7 @@ class Http {
     static CompletableFuture<Void> requestDelete(String url) {
         return CompletableFuture.supplyAsync(() -> {
             Request request = getRequestBuilder().delete().url(url).build();
-            try {
-                getClient().newCall(request).execute().close();
-                return null;
+            try (Response response = getClient().newCall(request).execute()) {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
