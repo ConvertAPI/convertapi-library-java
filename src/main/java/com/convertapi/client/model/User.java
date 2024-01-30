@@ -8,6 +8,7 @@ public class User {
     public boolean Active;
     public String FullName;
     public String Email;
-    public int SecondsLeft;
+    public int ConversionsTotal;
+    public int ConversionsConsumed;
     public String Status;
 }

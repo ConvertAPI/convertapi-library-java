@@ -82,11 +82,12 @@ CompletableFuture<ConversionResult> result = ConvertApi.convert("pdf", "jpg",
 
 ### User information
 
-You can always check remaining seconds amount by fetching [user information](https://www.convertapi.com/doc/user).
+You can always check the remaining conversions amount and other account information by fetching [user information](https://www.convertapi.com/doc/user).
 
 ```java
 User user = ConvertApi.getUser();
-int secondsLeft = user.SecondsLeft;
+int conversionsTotal = user.ConversionsTotal;
+int conversionsConsumed = user.ConversionsConsumed;
 ```
 
 ### Alternative domain
