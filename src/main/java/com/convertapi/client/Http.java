@@ -66,6 +66,7 @@ class Http {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            return null;
         });
     }
 

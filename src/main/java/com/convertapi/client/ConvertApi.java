@@ -71,6 +71,7 @@ public class ConvertApi {
             Request request = Http.getRequestBuilder()
                 .url(url)
                 .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "multipart/form-data")
                 .post(multipartBuilder.build())
                 .build();
 
