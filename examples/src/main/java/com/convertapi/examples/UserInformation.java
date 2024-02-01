@@ -22,6 +22,7 @@ public class UserInformation {
         System.out.println("Name: " + user.FullName);
         System.out.println("Status: " + user.Status);
         System.out.println("Active: " + user.Active);
-        System.out.println("Seconds left: " + user.SecondsLeft);
+        System.out.println("Total Conversions: " + user.ConversionsTotal);
+        System.out.println("Conversions Consumed: " + user.ConversionsConsumed);
     }
 }
