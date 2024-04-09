@@ -31,6 +31,9 @@ You can get your secret at https://www.convertapi.com/a
 
 ```java
 Config.setDefaultSecret("your-api-secret");
+// or token authentication
+Config.setDefaultToken("your-token");
+Config.setDefaultApiKey("your-api-key");
 ```
 
 ### File conversion
