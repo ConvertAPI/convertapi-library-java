@@ -68,7 +68,7 @@ public class ConvertApi {
                 }
             }
 
-            Request request = Http.getRequestBuilder()
+            Request request = Http.getRequestBuilder(config)
                 .url(url)
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "multipart/form-data")
@@ -99,7 +99,7 @@ public class ConvertApi {
 
     public static User getUser(Config config) {
         HttpUrl url = Http.getUrlBuilder(config).addPathSegment("user").build();
-        Request request = Http.getRequestBuilder()
+        Request request = Http.getRequestBuilder(config)
             .url(url)
             .addHeader("Accept", "application/json")
             .build();
@@ -124,13 +124,8 @@ public class ConvertApi {
     }
 
     @SuppressWarnings("unused")
-    public static CompletableFuture<ConversionResult> convertFile(Path fromFile, String toFormat, String secret, Param... params) throws IOException {
-        return convertFile(fromFile, toFormat, Config.defaults(secret), params);
-    }
-
-    @SuppressWarnings("unused")
-    public static CompletableFuture<ConversionResult> convertFile(Path fromFile, String toFormat, String token, String apiKey, Param... params) throws IOException {
-        return convertFile(fromFile, toFormat, Config.defaults(token, apiKey), params);
+    public static CompletableFuture<ConversionResult> convertFile(Path fromFile, String toFormat, String apiCredentials, Param... params) throws IOException {
+        return convertFile(fromFile, toFormat, Config.defaults(apiCredentials), params);
     }
 
     public static CompletableFuture<ConversionResult> convertFile(Path fromFile, String toFormat, Config config, Param... params) throws IOException {
@@ -144,13 +139,8 @@ public class ConvertApi {
     }
 
     @SuppressWarnings("unused")
-    public static void convertFile(String fromPathToFile, String toPathToFile, String secret) {
-        convertFile(fromPathToFile, toPathToFile, Config.defaults(secret));
-    }
-
-    @SuppressWarnings("unused")
-    public static void convertFile(String fromPathToFile, String toPathToFile, String token, String apiKey) {
-        convertFile(fromPathToFile, toPathToFile, Config.defaults(token, apiKey));
+    public static void convertFile(String fromPathToFile, String toPathToFile, String apiCredentials) {
+        convertFile(fromPathToFile, toPathToFile, Config.defaults(apiCredentials));
     }
 
     public static void convertFile(String fromPathToFile, String toPathToFile, Config config) {
@@ -169,13 +159,8 @@ public class ConvertApi {
     }
 
     @SuppressWarnings("unused")
-    public static List<Path> convertFileToDir(String fromPathToFile, String toFormat, String outputDirectory, String secret, Param... params) {
-        return convertFileToDir(fromPathToFile, toFormat, outputDirectory, Config.defaults(secret), params);
-    }
-
-    @SuppressWarnings("unused")
-    public static List<Path> convertFileToDir(String fromPathToFile, String toFormat, String outputDirectory, String token, String apiKey, Param... params) {
-        return convertFileToDir(fromPathToFile, toFormat, outputDirectory, Config.defaults(token, apiKey), params);
+    public static List<Path> convertFileToDir(String fromPathToFile, String toFormat, String outputDirectory, String apiCredentials, Param... params) {
+        return convertFileToDir(fromPathToFile, toFormat, outputDirectory, Config.defaults(apiCredentials), params);
     }
 
     public static List<Path> convertFileToDir(String fromPathToFile, String toFormat, String outputDirectory, Config config, Param... params) {
@@ -194,13 +179,8 @@ public class ConvertApi {
     }
 
     @SuppressWarnings("unused")
-    public static Path convertUrl(String url, String toPathToFile, String secret, Param... params) {
-        return convertUrl(url, toPathToFile, Config.defaults(secret), params);
-    }
-
-    @SuppressWarnings("unused")
-    public static Path convertUrl(String url, String toPathToFile, String token, String apiKey, Param... params) {
-        return convertUrl(url, toPathToFile, Config.defaults(token, apiKey), params);
+    public static Path convertUrl(String url, String toPathToFile, String apiCredentials, Param... params) {
+        return convertUrl(url, toPathToFile, Config.defaults(apiCredentials), params);
     }
 
     public static Path convertUrl(String url, String toPathToFile, Config config, Param... params) {
@@ -219,13 +199,8 @@ public class ConvertApi {
     }
 
     @SuppressWarnings("unused")
-    public static Path convertRemoteFile(String url, String toPathToFile, String secret, Param... params) {
-        return convertRemoteFile(url, toPathToFile, Config.defaults(secret), params);
-    }
-
-    @SuppressWarnings("unused")
-    public static Path convertRemoteFile(String url, String toPathToFile, String token, String apiKey, Param... params) {
-        return convertRemoteFile(url, toPathToFile, Config.defaults(token, apiKey), params);
+    public static Path convertRemoteFile(String url, String toPathToFile, String apiCredentials, Param... params) {
+        return convertRemoteFile(url, toPathToFile, Config.defaults(apiCredentials), params);
     }
 
     public static Path convertRemoteFile(String url, String toPathToFile, Config config, Param... params) {
@@ -245,13 +220,8 @@ public class ConvertApi {
     }
 
     @SuppressWarnings("unused")
-    public static List<Path> convertRemoteFileToDir(String url, String toFormat, String outputDirectory, String secret, Param... params) {
-        return convertRemoteFileToDir(url, toFormat, outputDirectory, Config.defaults(secret), params);
-    }
-
-    @SuppressWarnings("unused")
-    public static List<Path> convertRemoteFileToDir(String url, String toFormat, String outputDirectory, String token, String apiKey, Param... params) {
-        return convertRemoteFileToDir(url, toFormat, outputDirectory, Config.defaults(token, apiKey), params);
+    public static List<Path> convertRemoteFileToDir(String url, String toFormat, String outputDirectory, String apiCredentials, Param... params) {
+        return convertRemoteFileToDir(url, toFormat, outputDirectory, Config.defaults(apiCredentials), params);
     }
 
     public static List<Path> convertRemoteFileToDir(String url, String toFormat, String outputDirectory, Config config, Param... params) {

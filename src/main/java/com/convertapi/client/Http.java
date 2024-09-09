@@ -3,6 +3,7 @@ package com.convertapi.client;
 import com.convertapi.client.model.RemoteUploadResponse;
 import com.google.gson.Gson;
 import okhttp3.*;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,17 +27,9 @@ class Http {
     }
 
     static HttpUrl.Builder getUrlBuilder(Config config) {
-        HttpUrl.Builder urlBuilder = new HttpUrl.Builder()
+        return new HttpUrl.Builder()
             .scheme(config.getScheme())
             .host(config.getHost());
-
-        if (config.getSecret() != null) {
-            return urlBuilder.addQueryParameter("secret", config.getSecret());
-        } else {
-            return urlBuilder
-                .addQueryParameter("token", config.getToken())
-                .addQueryParameter("apikey", config.getApiKey());
-        }
     }
 
     static CompletableFuture<InputStream> requestGet(String url) {
@@ -71,8 +64,18 @@ class Http {
     }
 
     static Request.Builder getRequestBuilder() {
+        return getRequestBuilder(null);
+    }
+
+    static Request.Builder getRequestBuilder(@Nullable Config config) {
         String agent = String.format("ConvertAPI-Java/%s (%s)", Http.class.getPackage().getImplementationVersion(), System.getProperty("os.name"));
-        return new Request.Builder().header("User-Agent", agent);
+        Request.Builder request = new Request.Builder()
+            .header("User-Agent", agent);
+
+        if (config != null) {
+            request = request.header("Authorization", "Bearer " + config.getApiCredentials());
+        }
+        return request;
     }
 
     static RemoteUploadResponse remoteUpload(String urlToFile, Config config) {
@@ -81,7 +84,7 @@ class Http {
             .addQueryParameter("url", urlToFile)
             .build();
 
-        Request request = Http.getRequestBuilder()
+        Request request = Http.getRequestBuilder(config)
                 .url(url)
                 .method("POST", RequestBody.create("", null))
             .addHeader("Accept", "application/json")
