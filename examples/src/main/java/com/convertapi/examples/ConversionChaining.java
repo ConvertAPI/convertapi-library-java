@@ -21,7 +21,7 @@ import static java.lang.System.getenv;
 public class ConversionChaining {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-        Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));    //Get your secret at https://www.convertapi.com/a
+        Config.setDefaultApiCredentials(getenv("CONVERTAPI_CREDENTIALS"));   //Get your api credentials at https://www.convertapi.com/a
 
         System.out.println("Converting PDF to JPG and compressing result files with ZIP");
         CompletableFuture<ConversionResult> jpgResult = ConvertApi.convert("docx", "jpg", new Param("file", Paths.get("files/test.docx")));
