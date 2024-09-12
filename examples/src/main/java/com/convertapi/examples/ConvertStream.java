@@ -22,7 +22,7 @@ import static java.lang.System.getenv;
 public class ConvertStream {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException, IOException {
-        Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));    //Get your secret at https://www.convertapi.com/a
+        Config.setDefaultApiCredentials(getenv("CONVERTAPI_CREDENTIALS"));   //Get your api credentials at https://www.convertapi.com/a
 
         // Creating file data stream
         InputStream stream = Files.newInputStream(new File("src/main/resources/test.docx").toPath());

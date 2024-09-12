@@ -13,7 +13,7 @@ import static java.lang.System.getenv;
 public class UserInformation {
 
     public static void main(String[] args) {
-        Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));    //Get your secret at https://www.convertapi.com/a
+        Config.setDefaultApiCredentials(getenv("CONVERTAPI_CREDENTIALS"));   //Get your api credentials at https://www.convertapi.com/a
         User user = ConvertApi.getUser();
 
         System.out.println("API Key: " + user.ApiKey);

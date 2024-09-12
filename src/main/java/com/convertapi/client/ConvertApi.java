@@ -38,18 +38,6 @@ public class ConvertApi {
                 .addPathSegment("to")
                 .addPathSegment(toFormat);
 
-            for (Param param : params) {
-                if (param.getName().equalsIgnoreCase("converter")) {
-                    try {
-                        urlBuilder = urlBuilder
-                            .addPathSegment("converter")
-                            .addPathSegment(param.getValue().get(0));
-                    } catch (InterruptedException | ExecutionException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-
             HttpUrl url = urlBuilder.addQueryParameter("storefile", "true").build();
 
             MultipartBody.Builder multipartBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
