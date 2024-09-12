@@ -20,7 +20,7 @@ import static java.lang.System.getenv;
 public class ConvertWebToPdf {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        Config.setDefaultSecret(getenv("CONVERTAPI_SECRET"));    //Get your secret at https://www.convertapi.com/a
+        Config.setDefaultApiCredentials(getenv("CONVERTAPI_CREDENTIALS"));   //Get your api credentials at https://www.convertapi.com/a
 
         System.out.println("Converting WEB to PDF");
         CompletableFuture<ConversionResult> result = ConvertApi.convert("web", "pdf",

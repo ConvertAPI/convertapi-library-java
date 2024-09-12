@@ -8,7 +8,7 @@ And many others files manipulations.
 In just few minutes you can integrate it into your application and use it easily.
 
 The ConvertAPI-Java library makes it easier to use the Convert API from your Java 8 projects without having to build your own API calls.
-You can get your free API secret at https://www.convertapi.com/a
+You can get your free API credentials at https://www.convertapi.com/a
 
 ## Installation
 
@@ -19,7 +19,7 @@ Add the following dependency to your pom.xml:
 <dependency>
     <groupId>com.convertapi.client</groupId>
     <artifactId>convertapi</artifactId>
-    <version>2.10</version>
+    <version>2.11</version>
 </dependency>
 ```
 
@@ -27,13 +27,10 @@ Add the following dependency to your pom.xml:
 
 ### Configuration
 
-You can get your secret at https://www.convertapi.com/a
+You can get your credentials at https://www.convertapi.com/a
 
 ```java
-Config.setDefaultSecret("your-api-secret");
-// or token authentication
-Config.setDefaultToken("your-token");
-Config.setDefaultApiKey("your-api-key");
+Config.setDefaultApiCredentials("your-api-secret");
 ```
 
 ### File conversion
@@ -98,7 +95,7 @@ int conversionsConsumed = user.ConversionsConsumed;
 Create `Config` instance with the alternative domain and provide it in `convert` method. Dedicated to the region [domain list](https://www.convertapi.com/doc/servers-location).
 
 ```java
-Config config = new Config(secret, "https", "eu-v2.convertapi.com", 0, httpClientBuilder);
+Config config = new Config(credentials, "https", "eu-v2.convertapi.com", 0, httpClientBuilder);
 ```
 
 ### More examples
@@ -114,13 +111,13 @@ import com.convertapi.ConvertApi;
 
 public class SimpleConversion {
     public static void main(String[] args) {
-        ConvertApi.convert("source.docx", "result.pdf", "your-api-secret");
+        ConvertApi.convert("source.docx", "result.pdf", "your-api-credentials");
     }
 }
 ```
 
 This is the bare-minimum to convert a file using the ConvertAPI client, but you can do a great deal more with the ConvertAPI Java library.
-Take special note that you should replace `your-api-secret` with the secret you obtained in item two of the pre-requisites.
+Take special note that you should replace `your-api-credentials` with the secret you obtained in item two of the pre-requisites.
 
 ### Issues &amp; Comments
 Please leave all comments, bugs, requests, and issues on the Issues page. We'll respond to your request ASAP!
