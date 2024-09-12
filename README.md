@@ -30,7 +30,7 @@ Add the following dependency to your pom.xml:
 You can get your credentials at https://www.convertapi.com/a
 
 ```java
-Config.setDefaultApiCredentials("your-api-secret");
+Config.setDefaultApiCredentials("your-api-credentials");
 ```
 
 ### File conversion
@@ -117,7 +117,7 @@ public class SimpleConversion {
 ```
 
 This is the bare-minimum to convert a file using the ConvertAPI client, but you can do a great deal more with the ConvertAPI Java library.
-Take special note that you should replace `your-api-credentials` with the secret you obtained in item two of the pre-requisites.
+Take special note that you should replace `your-api-credentials` with the credentials you obtained in item two of the pre-requisites.
 
 ### Issues &amp; Comments
 Please leave all comments, bugs, requests, and issues on the Issues page. We'll respond to your request ASAP!
