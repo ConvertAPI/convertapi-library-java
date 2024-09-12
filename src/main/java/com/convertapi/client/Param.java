@@ -105,7 +105,7 @@ public class Param {
 
     private static CompletableFuture<List<String>> upload(InputStream stream, String fileName, Config config) {
         return CompletableFuture.supplyAsync(() -> {
-            Request request = Http.getRequestBuilder()
+            Request request = Http.getRequestBuilder(config)
                     .url(Http.getUrlBuilder(config).addPathSegment("upload")
                             .addQueryParameter("filename", fileName)
                             .build())
