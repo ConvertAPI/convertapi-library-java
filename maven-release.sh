@@ -17,10 +17,10 @@ git fetch
 git checkout $branch_to_release
 
 echo "Preparing release..."
-mvn release:prepare -DreleaseVersion=${VERSION} -DdevelopmentVersion=${NEXT_VERSION} -Dtag=v${VERSION} -Dresume=false -Darguments=-Dgpg.passphrase=${GPG_PASSPHRASE}
+mvn release:prepare -Prelease-sign-artifacts -DreleaseVersion=${VERSION} -DdevelopmentVersion=${NEXT_VERSION} -Dtag=v${VERSION} -Dresume=false -Darguments=-Dgpg.passphrase=${GPG_PASSPHRASE}
 
 echo "Performing release..."
-mvn release:perform
+mvn release:perform -Prelease-sign-artifacts
 
 echo "Push the new release tag..."
 git push --tags
