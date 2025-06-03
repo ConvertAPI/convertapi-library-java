@@ -20,7 +20,7 @@ import static java.lang.System.getenv;
 public class ConvertRemoteFile {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        Config.setDefaultApiCredentials(getenv("CONVERTAPI_CREDENTIALS"));   //Get your api credentials at https://www.convertapi.com/a
+        Config.setDefaultApiCredentials(getenv("API_TOKEN"));   // Get your api token at https://www.convertapi.com/a/authentication
 
         System.out.println("Converting remote PPTX to PDF");
         CompletableFuture<ConversionResult> result = ConvertApi.convert("pptx", "pdf",

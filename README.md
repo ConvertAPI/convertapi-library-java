@@ -8,7 +8,7 @@ And many others files manipulations.
 In just few minutes you can integrate it into your application and use it easily.
 
 The ConvertAPI-Java library makes it easier to use the Convert API from your Java 8 projects without having to build your own API calls.
-You can get your free API credentials at https://www.convertapi.com/a
+You can get your free API token at https://www.convertapi.com/a/authentication
 
 ## Installation
 
@@ -27,10 +27,10 @@ Add the following dependency to your pom.xml:
 
 ### Configuration
 
-You can get your credentials at https://www.convertapi.com/a
+You can get your token at https://www.convertapi.com/a/authentication
 
 ```java
-Config.setDefaultApiCredentials("your-api-credentials");
+Config.setDefaultApiCredentials("api-token");
 ```
 
 ### File conversion
@@ -111,13 +111,13 @@ import com.convertapi.ConvertApi;
 
 public class SimpleConversion {
     public static void main(String[] args) {
-        ConvertApi.convert("source.docx", "result.pdf", "your-api-credentials");
+        ConvertApi.convert("source.docx", "result.pdf", "api-token");
     }
 }
 ```
 
 This is the bare-minimum to convert a file using the ConvertAPI client, but you can do a great deal more with the ConvertAPI Java library.
-Take special note that you should replace `your-api-credentials` with the credentials you obtained in item two of the pre-requisites.
+Take special note that you should replace `api-token` with the token you obtained in item two of the pre-requisites.
 
 ### Issues &amp; Comments
 Please leave all comments, bugs, requests, and issues on the Issues page. We'll respond to your request ASAP!

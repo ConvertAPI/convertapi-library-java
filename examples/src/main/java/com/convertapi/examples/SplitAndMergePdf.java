@@ -21,7 +21,7 @@ import static java.lang.System.getenv;
 public class SplitAndMergePdf {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-        Config.setDefaultApiCredentials(getenv("CONVERTAPI_CREDENTIALS"));   //Get your api credentials at https://www.convertapi.com/a
+        Config.setDefaultApiCredentials(getenv("API_TOKEN"));   // Get your api token at https://www.convertapi.com/a/authentication
         Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
 
         System.out.println("Creating PDF with the first and the last pages");
