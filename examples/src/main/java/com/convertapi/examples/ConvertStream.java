@@ -25,16 +25,16 @@ public class ConvertStream {
         Config.setDefaultApiCredentials(getenv("API_TOKEN"));   // Get your api token at https://www.convertapi.com/a/authentication
 
         // Creating file data stream
-        InputStream stream = Files.newInputStream(new File("src/main/resources/test.docx").toPath());
-
-        System.out.println("Converting stream of DOCX data to PDF");
-        CompletableFuture<ConversionResult> result = ConvertApi.convert("docx", "pdf",
+        try (InputStream stream = Files.newInputStream(new File("src/main/resources/test.docx").toPath())) {
+            System.out.println("Converting stream of DOCX data to PDF");
+            CompletableFuture<ConversionResult> result = ConvertApi.convert("docx", "pdf",
                 new Param("file", stream, "test.docx")
-        );
+            );
 
-        Path pdfFile = Paths.get(System.getProperty("java.io.tmpdir") + "/myfile.pdf");
-        result.get().saveFile(pdfFile).get();
+            Path pdfFile = Paths.get(System.getProperty("java.io.tmpdir") + "/myfile.pdf");
+            result.get().saveFile(pdfFile).get();
 
-        System.out.println("PDF file saved to: " + pdfFile.toString());
+            System.out.println("PDF file saved to: " + pdfFile.toString());
+        }
     }
 }
