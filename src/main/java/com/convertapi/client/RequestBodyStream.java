@@ -20,15 +20,6 @@ class RequestBodyStream {
             }
 
             @Override
-            public long contentLength() {
-                try {
-                    return inputStream.available();
-                } catch (IOException e) {
-                    return 0;
-                }
-            }
-
-            @Override
             public void writeTo(BufferedSink sink) throws IOException {
                 Source source = null;
                 try {
