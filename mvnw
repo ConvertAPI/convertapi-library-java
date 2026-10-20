@@ -177,6 +177,10 @@ verbose "Downloading to: $TMP_DOWNLOAD_DIR/$distributionUrlName"
 
 # select .zip or .tar.gz
 if ! command -v unzip >/dev/null; then
+  # ConvertAPI: distributionSha256Sum is the checksum of the .zip, so the .tar.gz fallback would always
+  # fail validation with a misleading "might be compromised" message. (Local change to the generated
+  # wrapper; keep it when regenerating.)
+  [ -z "${distributionSha256Sum-}" ] || die "unzip is required: .mvn/wrapper/maven-wrapper.properties pins the checksum of the .zip distribution. Install unzip and run again."
   distributionUrl="${distributionUrl%.zip}.tar.gz"
   distributionUrlName="${distributionUrl##*/}"
 fi
