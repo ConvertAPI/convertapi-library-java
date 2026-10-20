@@ -117,7 +117,7 @@ public class ConvertApi {
     }
 
     public static CompletableFuture<ConversionResult> convertFile(Path fromFile, String toFormat, Config config, Param... params) throws IOException {
-        Param[] fileParam = new Param[]{new Param("file", fromFile)};
+        Param[] fileParam = new Param[]{new Param("file", fromFile, config)};
         return convert(getFileExtension(fromFile), toFormat, Param.concat(fileParam, params), config);
     }
 

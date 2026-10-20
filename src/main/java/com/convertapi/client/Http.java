@@ -80,7 +80,7 @@ class Http {
 
     static RemoteUploadResponse remoteUpload(String urlToFile, Config config) {
         HttpUrl url = Http.getUrlBuilder(config)
-            .addPathSegment("upload-from-url")
+            .addPathSegment("upload")
             .addQueryParameter("url", urlToFile)
             .build();
 
