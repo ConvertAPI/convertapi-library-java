@@ -1,0 +1,36 @@
+# Weekly dependency updates, each opened as a pull request against main that must pass the `build` check
+# and is merged like any other change (merge commit). Merging releases nothing: a new Maven Central
+# version still needs a GitHub Release (see RELEASING.md).
+version: 2
+updates:
+  # The workflows pin every action to a commit SHA with a `# vX.Y.Z` comment; Dependabot updates both.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      github-actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: ci
+    labels: [dependencies]
+
+  # gson and okhttp bumps raise the version every consumer gets, so they belong in the CHANGELOG of the
+  # next release. Plugin and test bumps only affect the build. Major versions are left to a person:
+  # okhttp 5 and JUnit 6 drop Java 8, which the library still supports.
+  - package-ecosystem: maven
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      maven-minor-and-patch:
+        update-types: [minor, patch]
+    ignore:
+      - dependency-name: "*"
+        update-types: [version-update:semver-major]
+    commit-message:
+      prefix: deps
+    labels: [dependencies]
+    open-pull-requests-limit: 5
