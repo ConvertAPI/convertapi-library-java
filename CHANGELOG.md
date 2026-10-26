@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog and, from 2.13.1 on, this project adheres to Semantic Versioning.
 
-## [Unreleased]
+## [2.13.1] - 2026-10-26
 
 ### Fixed
 - `ConvertApi.convertRemoteFile` and `convertRemoteFileToDir` failed with `404 page not found`: they called
