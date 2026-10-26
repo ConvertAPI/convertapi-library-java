@@ -74,7 +74,7 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>4.12.0</version>
+            <version>4.12.1</version>
         </dependency>
 
         <!-- JUnit 5, because JUnit 6 needs Java 17 and the tests are compiled for Java 8 like the library. -->
@@ -103,7 +103,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.6.0</version>
+                    <version>3.6.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
