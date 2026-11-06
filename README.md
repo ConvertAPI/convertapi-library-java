@@ -102,6 +102,16 @@ Config config = new Config(credentials, "https", "eu-v2.convertapi.com", 0, http
 
 You can find more advanced examples in the [examples](https://github.com/ConvertAPI/convertapi-library-java/tree/main/examples/src/main/java/com/convertapi/examples) folder.
 
+- [Advanced.java](https://github.com/ConvertAPI/convertapi-library-java/blob/main/examples/src/main/java/com/convertapi/examples/Advanced.java) - Configure the HTTP client (proxy, timeouts) and delete the files from the server after a conversion
+- [ConversionChaining.java](https://github.com/ConvertAPI/convertapi-library-java/blob/main/examples/src/main/java/com/convertapi/examples/ConversionChaining.java) - Chain two conversions: DOCX to JPG images, then the images to a ZIP
+- [ConvertRemoteFile.java](https://github.com/ConvertAPI/convertapi-library-java/blob/main/examples/src/main/java/com/convertapi/examples/ConvertRemoteFile.java) - Convert a remote file (a PPTX at a URL) to PDF
+- [ConvertStream.java](https://github.com/ConvertAPI/convertapi-library-java/blob/main/examples/src/main/java/com/convertapi/examples/ConvertStream.java) - Convert a DOCX file passed as a stream to PDF
+- [ConvertWebToPdf.java](https://github.com/ConvertAPI/convertapi-library-java/blob/main/examples/src/main/java/com/convertapi/examples/ConvertWebToPdf.java) - Convert a web page URL to PDF
+- [ConvertWordToPdfAndPng.java](https://github.com/ConvertAPI/convertapi-library-java/blob/main/examples/src/main/java/com/convertapi/examples/ConvertWordToPdfAndPng.java) - Convert one Word DOCX file to PDF and to images in parallel
+- [SimpleConversion.java](https://github.com/ConvertAPI/convertapi-library-java/blob/main/examples/src/main/java/com/convertapi/examples/SimpleConversion.java) - The simplest file-to-file conversion, DOCX to PDF
+- [SplitAndMergePdf.java](https://github.com/ConvertAPI/convertapi-library-java/blob/main/examples/src/main/java/com/convertapi/examples/SplitAndMergePdf.java) - Split a PDF and merge its first and last pages into a new PDF
+- [UserInformation.java](https://github.com/ConvertAPI/convertapi-library-java/blob/main/examples/src/main/java/com/convertapi/examples/UserInformation.java) - Retrieve your ConvertAPI account information
+
 #### Converting your first file, full example:
 
 ConvertAPI is designed to make converting file super easy, the following snippet shows how easy it is to get started. Let's convert WORD DOCX file to PDF:
