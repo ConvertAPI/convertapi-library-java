@@ -15,7 +15,7 @@ import static java.lang.System.getenv;
 
 /**
  * Example of extracting the first and the last page from PDF and then chaining merge conversion.
- * https://www.convertapi.com/pdf-to-extract
+ * https://www.convertapi.com/pdf-to-split
  * https://www.convertapi.com/pdf-to-merge
  */
 public class SplitAndMergePdf {
