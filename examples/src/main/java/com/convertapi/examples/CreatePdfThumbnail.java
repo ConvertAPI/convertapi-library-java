@@ -14,8 +14,7 @@ import java.util.concurrent.ExecutionException;
 import static java.lang.System.getenv;
 
 /**
- * Example of extracting first page from PDF and then chaining conversion PDF page to JPG.
- * https://www.convertapi.com/pdf-to-extract
+ * Example of converting the first page of a PDF to a JPG thumbnail.
  * https://www.convertapi.com/pdf-to-jpg
  */
 public class CreatePdfThumbnail {
@@ -26,15 +25,9 @@ public class CreatePdfThumbnail {
 
         System.out.println("Creating PDF thumbnail");
 
-        CompletableFuture<ConversionResult> pdfFirstPageResult = ConvertApi.convert("pdf", "extract",
-            new Param("file", Paths.get("files/test.pdf")),
-            new Param("pagerange", "1")
-        );
-
         CompletableFuture<ConversionResult> thumbnailResult = ConvertApi.convert("pdf", "jpg",
-            new Param("file", pdfFirstPageResult),
-            new Param("scaleimage", "true"),
-            new Param("scaleproportions", "true"),
+            new Param("file", Paths.get("files/test.pdf")),
+            new Param("pagerange", "1"),
             new Param("imageheight", 300)
         );
 
