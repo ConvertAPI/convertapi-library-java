@@ -27,7 +27,7 @@ public class ConversionChaining {
         CompletableFuture<ConversionResult> jpgResult = ConvertApi.convert("docx", "jpg", new Param("file", Paths.get("files/test.docx")));
         System.out.println("ConvertApi.convert is not blocking method, proceeding to ZIP conversion");
 
-        CompletableFuture<ConversionResult> zipResult = ConvertApi.convert("jpg", "zip", new Param("files", jpgResult));
+        CompletableFuture<ConversionResult> zipResult = ConvertApi.convert("file", "zip", new Param("files", jpgResult));
 
         System.out.println("Saving result file (blocking operation)");
         Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
