@@ -24,7 +24,7 @@ public class ConvertWebToPdf {
 
         System.out.println("Converting WEB to PDF");
         CompletableFuture<ConversionResult> result = ConvertApi.convert("html", "pdf",
-            new Param("url", "https://en.wikipedia.org/wiki/Data_conversion"),
+            new Param("url", "https://cdn.convertapi.com/public/files/demo"),
             new Param("filename", "web-example")
         );
 
