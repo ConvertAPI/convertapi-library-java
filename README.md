@@ -74,9 +74,10 @@ parameters and explanations can be found [here](https://www.convertapi.com/conve
 ```java
 CompletableFuture<ConversionResult> result = ConvertApi.convert("pdf", "jpg",
         new Param("file", Paths.get("test.pdf")),
-        new Param("scaleimage", "true"),
-        new Param("scaleproportions", "true"),
-        new Param("imageheight", 300)
+        new Param("pagerange", "1"),
+        new Param("imagewidth", 300),
+        new Param("imageheight", 300),
+        new Param("fittosize", "true")
 );
 ```
 
