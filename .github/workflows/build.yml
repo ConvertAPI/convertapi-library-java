@@ -114,8 +114,11 @@ jobs:
           for f in "convertapi-$VERSION.jar" "convertapi-$VERSION-sources.jar" "convertapi-$VERSION-javadoc.jar"; do
             test -f "target/$f" || { echo "::error::target/$f was not built"; exit 1; }
           done
-          # Class file major version 52 = Java 8, which the library still supports.
-          MAJOR=$(unzip -p "target/convertapi-$VERSION.jar" com/convertapi/client/ConvertApi.class | od -An -j7 -N1 -tu1 | tr -d ' ')
+          # Class file major version 52 = Java 8, which the library still supports. The class goes to a
+          # file first: od stops reading after byte 8, so unzip piped into it could still be writing (it
+          # writes 64 KB at a time), get SIGPIPE and fail the step under pipefail.
+          unzip -p "target/convertapi-$VERSION.jar" com/convertapi/client/ConvertApi.class > "$RUNNER_TEMP/ConvertApi.class"
+          MAJOR=$(od -An -j7 -N1 -tu1 "$RUNNER_TEMP/ConvertApi.class" | tr -d ' ')
           [ "$MAJOR" = 52 ] || { echo "::error::The classes are compiled for class file version $MAJOR, not 52 (Java 8)"; exit 1; }
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
