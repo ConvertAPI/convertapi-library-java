@@ -15,7 +15,7 @@ import static java.lang.System.getenv;
 
 /**
  * Example of converting Web Page URL to PDF file
- * https://www.convertapi.com/web-to-pdf
+ * https://www.convertapi.com/html-to-pdf
  */
 public class ConvertWebToPdf {
 
@@ -23,7 +23,7 @@ public class ConvertWebToPdf {
         Config.setDefaultApiCredentials(getenv("API_TOKEN"));   // Get your api token at https://www.convertapi.com/a/authentication
 
         System.out.println("Converting WEB to PDF");
-        CompletableFuture<ConversionResult> result = ConvertApi.convert("web", "pdf",
+        CompletableFuture<ConversionResult> result = ConvertApi.convert("html", "pdf",
             new Param("url", "https://en.wikipedia.org/wiki/Data_conversion"),
             new Param("filename", "web-example")
         );
