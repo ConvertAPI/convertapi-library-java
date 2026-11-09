@@ -109,6 +109,7 @@ You can find more advanced examples in the [examples](https://github.com/Convert
 - [ConvertStream.java](https://github.com/ConvertAPI/convertapi-library-java/blob/main/examples/src/main/java/com/convertapi/examples/ConvertStream.java) - Convert a DOCX file passed as a stream to PDF
 - [ConvertWebToPdf.java](https://github.com/ConvertAPI/convertapi-library-java/blob/main/examples/src/main/java/com/convertapi/examples/ConvertWebToPdf.java) - Convert a web page URL to PDF
 - [ConvertWordToPdfAndPng.java](https://github.com/ConvertAPI/convertapi-library-java/blob/main/examples/src/main/java/com/convertapi/examples/ConvertWordToPdfAndPng.java) - Convert one Word DOCX file to PDF and to images in parallel
+- [CreatePdfThumbnail.java](https://github.com/ConvertAPI/convertapi-library-java/blob/main/examples/src/main/java/com/convertapi/examples/CreatePdfThumbnail.java) - Turn the first page of a PDF into a JPG thumbnail
 - [SimpleConversion.java](https://github.com/ConvertAPI/convertapi-library-java/blob/main/examples/src/main/java/com/convertapi/examples/SimpleConversion.java) - The simplest file-to-file conversion, DOCX to PDF
 - [SplitAndMergePdf.java](https://github.com/ConvertAPI/convertapi-library-java/blob/main/examples/src/main/java/com/convertapi/examples/SplitAndMergePdf.java) - Split a PDF and merge its first and last pages into a new PDF
 - [UserInformation.java](https://github.com/ConvertAPI/convertapi-library-java/blob/main/examples/src/main/java/com/convertapi/examples/UserInformation.java) - Retrieve your ConvertAPI account information
