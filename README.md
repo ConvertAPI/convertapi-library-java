@@ -36,7 +36,7 @@ Config.setDefaultApiCredentials("api-token");
 ### File conversion
 
 Example to convert DOCX file to PDF. All supported formats and options can be found
-[here](https://www.convertapi.com/conversions).
+[here](https://www.convertapi.com/api).
 
 ```java
 CompletableFuture<ConversionResult> result = ConvertApi.convert("docx", "pdf", new Param("file", Paths.get("test.docx")));
@@ -69,7 +69,7 @@ CompletableFuture<ConversionResult> result = ConvertApi.convert("pptx", "pdf",
 #### Additional conversion parameters
 
 ConvertAPI accepts extra conversion parameters depending on converted formats. All conversion 
-parameters and explanations can be found [here](https://www.convertapi.com/conversions).
+parameters and explanations can be found [here](https://www.convertapi.com/api).
 
 ```java
 CompletableFuture<ConversionResult> result = ConvertApi.convert("pdf", "jpg",
@@ -83,7 +83,7 @@ CompletableFuture<ConversionResult> result = ConvertApi.convert("pdf", "jpg",
 
 ### User information
 
-You can always check the remaining conversions amount and other account information by fetching [user information](https://www.convertapi.com/doc/user).
+You can always check the remaining conversions amount and other account information by fetching [user information](https://www.convertapi.com/docs/user-information).
 
 ```java
 User user = ConvertApi.getUser();
@@ -93,7 +93,7 @@ int conversionsConsumed = user.ConversionsConsumed;
 
 ### Alternative domain
 
-Create `Config` instance with the alternative domain and provide it in `convert` method. Dedicated to the region [domain list](https://www.convertapi.com/doc/servers-location).
+Create `Config` instance with the alternative domain and provide it in `convert` method. Dedicated to the region [domain list](https://www.convertapi.com/docs/servers-location).
 
 ```java
 Config config = new Config(credentials, "https", "eu-v2.convertapi.com", 0, httpClientBuilder);
@@ -119,21 +119,21 @@ You can find more advanced examples in the [examples](https://github.com/Convert
 ConvertAPI is designed to make converting file super easy, the following snippet shows how easy it is to get started. Let's convert WORD DOCX file to PDF:
 
 ```java
-import com.convertapi.ConvertApi;
+import com.convertapi.client.ConvertApi;
 
 public class SimpleConversion {
     public static void main(String[] args) {
-        ConvertApi.convert("source.docx", "result.pdf", "api-token");
+        ConvertApi.convertFile("source.docx", "result.pdf", "api-token");
     }
 }
 ```
 
 This is the bare-minimum to convert a file using the ConvertAPI client, but you can do a great deal more with the ConvertAPI Java library.
-Take special note that you should replace `api-token` with the token you obtained in item two of the pre-requisites.
+Replace `api-token` with your API token from https://www.convertapi.com/a/authentication.
 
 ### Issues &amp; Comments
 Please leave all comments, bugs, requests, and issues on the Issues page. We'll respond to your request ASAP!
 
 ### License
-The ConvertAPI Java Library is licensed under the [MIT](http://www.opensource.org/licenses/mit-license.php "Read more about the MIT license form") license.
+The ConvertAPI Java Library is licensed under the [MIT](https://opensource.org/licenses/MIT) license.
 Refer to the [LICENSE](https://github.com/ConvertAPI/convertapi-library-java/blob/main/LICENSE.txt) file for more information.
