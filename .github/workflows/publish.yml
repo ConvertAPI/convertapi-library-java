@@ -142,7 +142,7 @@ jobs:
       # Writes ~/.m2/settings.xml with the server `central` (credentials read from the environment at
       # run time) and imports the signing key into a temporary keyring that is deleted after the job.
       # No dependency cache: a publishing job must not restore anything another run could have written.
-      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+      - uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78 # v6.2.0
         with:
           distribution: temurin
           java-version: 17
